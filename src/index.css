@@ -1,0 +1,42 @@
+.form-group{
+	max-width: 300px;
+	font-size: 14px;
+	margin: 3px auto;
+	margin-left: 0;
+}
+input,select{
+	height: 34px;
+	font-size: 14px;
+	line-height: 34px;
+	width: 100%;
+	padding: 4px 6px;
+	margin:0;
+	border:1px solid #ccc;
+	border-radius: 3px;
+	box-sizing: border-box;
+	outline:none;
+
+}
+.form-control:focus{
+	border-color: #00cc00;
+}
+.form-control option{
+	padding: 3px;
+}
+.form-element select[multiple],.form-element select[multiple], .form-element select[size][multiple]{
+	height: auto;
+}
+.form-element input[type=checkbox], .form-element input[type=radio]{
+	display: inline-block;
+	height: auto;
+	width: auto;
+}
+.form-group >label{
+	font-size: 16px;
+}
+.form-group .help{
+	color: #ccc;
+	font-size: 12px;
+	font-style: normal;
+	margin-left: 10px;
+}

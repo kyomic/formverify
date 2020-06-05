@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>form verify demo</title>
+        <style> </style> 
+        <link rel="stylesheet" type="text/css" href="index.css">
+        <script type="text/javascript" src="domquery.js"></script>
+        <script type="text/javascript" src="index.js"></script>
+    </head>
+     
+    <body>
+        <h2>
+            鼠标离开form时校验
+        </h2>
+        <form id="test1">
+            <div class="form-group">
+                <label>文本框<i class="help">必填，必须是英文</i></label>
+                <div class="form-element">
+                    <input class="form-control" name="input" data-rule=".+###[a-zA-Z]+" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label>单选框</label>
+                <div class="form-element">
+                    <label class="checkbox">选项
+                        <input class="form-control" type="radio" name="radio" value="radio">
+                    </label>                    
+                </div>
+            </div>
+            <div class="form-group">
+                <label>单选框(组)</label>
+                <div class="form-element">
+                    <div class="form-control" data-name="radio-group">
+                        <label class="checkbox">选项1
+                            <input type="radio" name="radio-group" value="radio1">
+                        </label>  
+                        <label class="checkbox">选项2
+                            <input type="radio" name="radio-group" value="radio2">
+                        </label> 
+                    </div>
+                                      
+                </div>
+            </div>
+            <div class="form-group">
+                <label>多选框(组)</label>
+                <div class="form-element">
+                    <div class="form-control" data-name="checkbox-group">
+                        <label class="checkbox">选项1
+                            <input type="checkbox" name="checkbox-group" value="checkbox1">
+                        </label>
+                        <label class="checkbox">选项2
+                            <input type="checkbox" name="checkbox-group" value="checkbox2">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>下拉框</label>
+                <div class="form-element">
+                    <select class="form-control" name="select-one">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>下拉框(多选)</label>
+                <div class="form-element">
+                    <select class="form-control" name="select-mutiple" multiple>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label></label>
+                <div class="form-element">
+                    <input type=button onclick="test1()" value="校验" />
+                </div>
+            <div>
+        </form>
+        <script type="text/javascript">
+            function test1(){
+                FormVerify.verify( $("#test1") )
+            }
+        </script>
+    </body>
+</html>

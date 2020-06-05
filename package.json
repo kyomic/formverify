@@ -1,0 +1,24 @@
+{
+  "name": "formverify",
+  "version": "0.0.1",
+  "description": "a lite form verify component",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kyomic/formverify.git"
+  },
+  "keywords": [
+    "js",
+    "form",
+    "verify"
+  ],
+  "author": "kyomic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kyomic/formverify/issues"
+  },
+  "homepage": "https://github.com/kyomic/formverify#readme"
+}
