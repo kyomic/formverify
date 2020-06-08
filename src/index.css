@@ -20,6 +20,9 @@ input,select{
 .form-control:focus{
 	border-color: #00cc00;
 }
+.form-control:hover{
+	border-color: #00cc00;
+}
 .form-control option{
 	padding: 3px;
 }
@@ -28,8 +31,34 @@ input,select{
 }
 .form-element input[type=checkbox], .form-element input[type=radio]{
 	display: inline-block;
-	height: auto;
-	width: auto;
+	height: 22px;
+	width: 16px;
+	position: absolute;
+	top: 0;
+	opacity: 0;
+}
+
+.checkbox{
+	line-height: 34px;
+	cursor: pointer;
+	position: relative;
+}
+.checkbox:after{
+	content: " "; 
+	display: inline-block;
+	border:1px solid #ccc;
+	width: 14px;
+	height: 14px;
+	border-radius: 100%;
+	vertical-align: middle;
+	line-height: 34px;
+}
+.checkbox-checked:after{
+	border-color: #00cc00;
+}
+
+.checkbox + .checkbox{
+	margin-left: 10px;
 }
 .form-group >label{
 	font-size: 16px;

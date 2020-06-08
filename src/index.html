@@ -6,6 +6,7 @@
         <style> </style> 
         <link rel="stylesheet" type="text/css" href="index.css">
         <script type="text/javascript" src="domquery.js"></script>
+        <script type="text/javascript" src="ui.js"></script>
         <script type="text/javascript" src="index.js"></script>
     </head>
      
@@ -81,11 +82,18 @@
                     <input type=button onclick="test1()" value="校验" />
                 </div>
             <div>
+            <div>111</div>
         </form>
         <script type="text/javascript">
             function test1(){
                 FormVerify.verify( $("#test1") )
+
             }
+            var func = function(){
+                console.log('click')
+            }
+            $('div').on('click',func)
+            $('div').off('click')
         </script>
     </body>
 </html>

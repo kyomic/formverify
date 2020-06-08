@@ -11,6 +11,43 @@
 		if( obj == document )return true;
 		return false;
 	}
+	/**
+	 * 对字符串进行哈希计算
+	 * @name utils.stringhash
+	 * @function
+	 * @grammar stringhash(str[, len])
+	 * @param {String} str 目标字符串
+	 * @param {Integer} len 产生哈希字符串长度 默认: 32
+	 * @returns {String} 哈希后的字符串
+	 */
+	utils.stringhash = function( str, len ){
+	    /* 对两个字符串进行异或运算
+	     */
+	    var stringxor = function( s1, s2 ) {
+	        var s = '', hash = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', max = Math.max( s1.length, s2.length );
+	        for ( var i = 0; i < max; i++ ) {
+	            // 将两个字符串对应字符的 Unicode 编码进行异或运算
+	            // 把运算结果取模, 去字符表中取对应字符
+	            var k = s1.charCodeAt( i ) ^ s2.charCodeAt( i );
+	            s += hash.charAt( k % 52 );
+	        }
+	        return s;
+	    };
+	    len = len || 32;
+	    var start = 0, i = 0, result = '', filllen = len - str.length % len;
+	    //使用字符0,将字符串长度补齐为哈希长度的倍数
+	    for ( i = 0; i < filllen; i++ ) {
+	        str += "0";
+	    }
+	    //将字符串分成 (str/len) 份,将上一次哈希后的字符串与下一组字符串进行哈希
+	    while ( start < str.length ) {
+	        result = stringxor( result, str.substr( start, len ) );
+	        start += len;
+	    }
+	    return result;
+	}
+	context.utils = utils;
+
 	var factory = function( selector, context ){
 		return new query( selector, context )
 	}
@@ -26,7 +63,49 @@
 			}
 		}
 	}
-	var query = function(selector, doc ){
+	factory.makeArray = function( obj ){
+		var res = [];
+		if( typeof obj == 'object' && obj.length ){
+			for(var i=0;i<obj.length;i++){
+				res.push( obj[i])
+			}
+		}else{
+			res = [obj];
+		}
+		return res;
+	}
+
+	var eventCache = {};
+	var tagMap = {
+			UL       : 1,
+            OL       : 2,
+            LI       : 3,
+            INPUT    : 4,
+            DIV      : 5,
+            BODY     : 6,
+            STRONG   : 7,
+            SPAN     : 8,
+            FORM     : 9,
+            BUTTON   : 10,
+            CAPTION  : 11,
+            FIELDSET : 12,
+            COLGROUP : 13,
+            TFOOT    : 14,
+            LABEL    : 15,
+            LEGEND   : 16,
+            THEAD    : 17,
+            OPTGROUP : 18,
+            OPTION   : 19,
+            SELECT   : 20,
+            TABLE    : 21,
+            TBODY    : 22,
+            IFRAME   : 0,
+            SCRIPT   : 0,
+            OBJECT   : 0,
+            EMBED    : 0,
+            IMG      : 0
+	}
+	var query = function( selector, doc ){
 		this.context = doc ? ( doc.length ? doc[0] :doc ) : document;
 		var nodes = {};
 		nodes.__proto__ = {
@@ -69,7 +148,7 @@
 					},
 					set:function( elem, value ){
 						var optionSet, option,options = elem.options;
-						var values = this.makeArray( value );
+						var values = factory.makeArray( value );
 						var i = options.length;//选项数量
 						var find = false;
 						while ( i-- ) {
@@ -88,27 +167,108 @@
 				},				
 				checkbox:{
 					set:function( elem, value ){
-						var values = this.makeArray( value );
+						var values = factory.makeArray( value );
 						if( values.indexOf( factory( elem).val() )!=-1){
 							elem.checked = true;
 						}
 					}
 				}
 			},
-			makeArray:function( obj ){
-				var res = [];
-				if( typeof obj == 'object' && obj.length ){
-					for(var i=0;i<obj.length;i++){
-						res.push( obj[i])
-					}
-				}else{
-					res = [obj];
+			domid:function(){
+				var paths = [];
+				var node = this.first();
+				while(node && node.nodeName.toUpperCase()!='BODY'){
+					var index = 0;
+					var tagName = node.nodeName.toUpperCase();
+	                for ( var i = node.previousSibling; i; i = i.previousSibling ) {
+	                    var d = i.nodeName.toUpperCase();
+	                    if ( tagMap[ d ] === 0 ) {
+	                        continue;
+	                    }
+	                    if ( d == tagName ) {
+	                        ++index;
+	                    }
+	                }
+	                tagName = tagMap[ tagName ] || tagName;
+	                var tindex = (index ? "!" + (index + 1) : "");
+                	paths.splice( 0, 0, tagName + tindex );
+                	node = node.parentNode;
 				}
-				return res;
+				return utils.stringhash(paths.join(''));
 			},
 			first:function(){
 				var node = this[0];
 				return node;
+			},
+			last:function(){
+				if( this.length ){
+					return this[ this.length - 1];
+				}
+				return null
+			},
+			parent:function(){
+				var node = this.first();
+				return $(node.parentNode())
+			},
+			//元素之后
+			after:function( query ){
+				query = factory(query);
+				var node = this.first();
+				var sub = query.length ? query[0]:query;
+				if( node && sub ){
+					var parent = node.parentNode;
+					parent.insertBefore( sub, node.nextSibling );
+				}
+				return this;
+			},
+			//元素之前
+			before:function( query ){
+				query = factory(query);
+				var node = this.first();
+				var sub = query.length ? query[0]:query;
+				if( node && sub ){
+					var parent = node.parentNode;
+					console.log("p",parent)
+					parent.insertBefore(sub, node);
+				}
+				return this;
+			},
+			//元素内部第一个位置
+			prepend:function( query ){
+				query = factory(query);
+				var node = this.first();
+				var sub = query.length ? query[0]:query;
+				if( node && sub ){
+					if( node.childNodes.length ){
+						node.insertBefore( sub, node.childNodes[0].nextSibling );
+					}else{
+						node.appendChild( sub );
+					}
+				}
+			},
+			//元素内的最后一个位置
+			append:function( query ){
+				query = factory(query);
+				var node = this.first();
+				var sub = query.length ? query[0]:query;
+				if( node && sub ){
+					node.appendChild( sub );
+				}
+			},
+			contain:function( query ){
+				var node = this.first();
+				if( !node )return false;
+				var child = query.length ? query[0] : query;
+				if( !child ) return false;
+				if( child == node ) return true;
+			    let p = child.parentNode;
+			    while(p){
+			        if( p == node ){
+			            return true;
+			        }
+			        p = p.parentNode;
+			    }
+			    return false;
 			},
 			hasClass:function( name ){
 				var node = this.first();
@@ -167,7 +327,7 @@
 			css:function( prop, val ){
 				var iset = typeof val != 'undefined';
 				if( iset ){
-					factory.each( this, function(i,node){						
+					factory.each( this, function(i,node){
 						if( typeof prop == 'object'){
 							for( var key in prop ){
 								node.style[key] = prop[key];
@@ -244,18 +404,89 @@
 					})
 				}
 				return this;
+			},
+			//event
+			on:function( event, handler ){
+				var self = this;
+				factory.each( this, function(i,node){
+					var id = factory(node).domid()
+					var evt = eventCache[ id ] || {};
+					var func = evt[ event ] || [];
+					func.push( handler )	
+					node.addEventListener( event, handler );
+
+					evt[event] = func;
+					eventCache[ id ] = evt;
+				})
+			},
+			off:function( event, handler){
+				var self = this;
+				factory.each( this, function(i,node){
+					var id = factory(node).domid()
+					var evt = eventCache[ id ] || {};
+					var func = evt[ event ] || [];
+					if( typeof handler =='function'){
+						var idx = func.indexOf( handler );
+						if( idx !=-1){
+							func.splice(idx, 1);							
+						}
+						node.removeEventListener( event, handler );
+					}else{
+						for(var i=0;i<func.length;i++){
+							node.removeEventListener( event, func[i] );
+						}
+						func = [];
+					}
+					evt[ event ] = func;
+					eventCache[id] = evt;
+					
+				})
+			},
+			trigger:function( event ){
+				var node = this.first();
+				if( node){
+					var id = factory(node).domid()
+					var evt = eventCache[ id ] || {};
+					var func = evt[ event ] || [];
+					for(var i=0;i<func.length;i++){
+						try{
+							func.call(node,event);
+						}catch(e){}
+					}
+				}
+			},
+			delegate:function( event, query, handler ){
+				var self = this;
+				this.on( event , function(e){
+					var sub = factory(query, this);
+					var tar = e.target;
+					if( sub.contain(tar)){
+						if( handler.call(this, event) === false ){
+			                e.stopPropagation();
+			                try{
+			                    e.cancelBubble = true;
+			                }catch(e){}
+			            }
+					}
+				})
+			},
+			undelegate:function(event,query,handler){
+				this.off(event,handler);
 			}
 		}
 		nodes.__proto__.valHooks['select-multiple'] = nodes.__proto__.valHooks['select-one'] = nodes.__proto__.valHooks['select'];
 		nodes.__proto__.valHooks['radio'] = nodes.__proto__.valHooks['checkbox']
 
 		if (typeof selector === 'string') {
-			//是字符串
-			var temp = this.context.querySelectorAll(selector);
-			for (var i = 0; i < temp.length; i++) {
-			   nodes[i] = temp[i]
+			if(/</ig.exec( selector )){
+				throw new Error("** unsupport html code");
+			}else{
+				var temp = this.context.querySelectorAll(selector);
+				for (var i = 0; i < temp.length; i++) {
+				   nodes[i] = temp[i]
+				}
+				nodes.length = temp.length;
 			}
-			nodes.length = temp.length;
 		} else {
 			if( utils.isdom( selector )){
 				//dom

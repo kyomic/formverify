@@ -15,13 +15,24 @@
 				switch( tagname ){
 					case 'div':
 						var inputs = $("input", node );
+						var value = '';
+						var values = [];
 						if( inputs && inputs.length ){
-							return inputs.val();
+							$.each( inputs,function(i, input ){
+								var el = $(input);
+								if( el.attr('type') == 'radio' && el.prop("checked")){
+									values.push( el.val() );
+								}
+								if( el.attr('type') == 'checkbox' && el.prop("checked")){
+									values.push( el.val() );
+								}
+							})
 						}
-						break;
+						return values.join(',')
+					case 'select':
+						return $.makeArray( nodes.val() ).join(',')
 					default:
 						return nodes.val();
-						break;
 				}
 			}
 		}else{
