@@ -3,11 +3,43 @@
     <head>
         <meta charset="utf-8">
         <title>form verify demo</title>
-        <style> </style> 
-        <link rel="stylesheet" type="text/css" href="index.css">
+        
+        <style>
+            .form-group{position: relative;}
+            .code{font-style: normal;font-size: 12px;color:red;position: absolute;right: 0;cursor: pointer;}
+            .code:hover{text-decoration: underline;}
+        </style>
         <script type="text/javascript" src="domquery.js"></script>
-        <script type="text/javascript" src="ui.js"></script>
-        <script type="text/javascript" src="index.js"></script>
+        <link rel="stylesheet" type="text/css" href="formverify.css">
+        <script src="formverify.js"></script>
+    
+        <link rel="stylesheet" type="text/css" href="./lib/highlight/10.0.3/styles/default.min.css">
+        <script type="text/javascript" src="./lib/highlight/10.0.3/highlight.min.js"></script>
+        <script type="text/javascript">            
+            var htmlEncode = function(value){
+                return !value ? value : String(value).replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+            }
+            var htmlDecode = function(value){
+                return !value ? value : String(value).replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&quot;/g, '"').replace(/&amp;/g, "&");
+            }
+
+            $.ready(function(){
+                $(document.body).delegate('click','.code',function(e){
+                    $("pre").remove();
+                    var formgroup = $(this).closest('.form-group');
+                    if( formgroup.length ){
+                        var pre = document.createElement('pre');
+                        var code = formgroup.prop('outerHTML');
+                        code = code.replace(/<i class="code">&lt;CODE&gt;<\/i>/i,'')
+                        pre.innerHTML = '<code class="xml">' + htmlEncode(code) + '</code>';
+                        formgroup.after( pre );
+                        document.querySelectorAll('pre code').forEach((block) => {
+                            hljs.highlightBlock(block);
+                        });
+                    }
+                })
+            })
+        </script>
     </head>
      
     <body>
@@ -16,27 +48,61 @@
         </h2>
         <form id="test1">
             <div class="form-group">
+                <i class="code">&lt;CODE&gt;</i>
                 <label>文本框<i class="help">必填，必须是英文</i></label>
                 <div class="form-element">
-                    <input class="form-control" name="input" data-rule=".+###[a-zA-Z]+" />
+                    <input class="form-control" name="input" data-rule=".+###^[a-zA-Z]+$" data-error="必填###只能填英文" />
+                </div>                
+            </div>            
+            <div class="form-group">
+                <i class="code">&lt;CODE&gt;</i>
+                <label>文本域<i class="help">必填</i></label>
+                <div class="form-element">
+                    <textarea class="form-control" name="textarea" data-rule=".+" data-error="必填"></textarea>
                 </div>
             </div>
             <div class="form-group">
-                <label>单选框</label>
+                <i class="code">&lt;CODE&gt;</i>
+                <label>单选框<i class="help">必填</i></label>
                 <div class="form-element">
-                    <label class="checkbox">选项
-                        <input class="form-control" type="radio" name="radio" value="radio">
+                    <label class="radio">选项
+                        <input class="form-control" type="radio" name="radio" value="radio" data-rule=".+">
                     </label>                    
                 </div>
             </div>
+            
             <div class="form-group">
-                <label>单选框(组)</label>
+                <i class="code">&lt;CODE&gt;</i>
+                <label>下拉框<i class="help">必填</i></label>
                 <div class="form-element">
-                    <div class="form-control" data-name="radio-group">
-                        <label class="checkbox">选项1
+                    <select class="form-control" name="select-one"  data-rule=".+">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <i class="code">&lt;CODE&gt;</i>
+                <label>下拉框(多选)<i class="help">必填</i></label>
+                <div class="form-element">
+                    <select class="form-control" name="select-mutiple" multiple  data-rule=".+">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <i class="code">&lt;CODE&gt;</i>
+                <label>自定义下单选框(组)<i class="help">必填</i></label>
+                <div class="form-element">
+                    <div class="form-control" data-name="radio-group" data-value="radio2" data-rule=".+">
+                        <label class="radio">选项1
                             <input type="radio" name="radio-group" value="radio1">
                         </label>  
-                        <label class="checkbox">选项2
+                        <label class="radio">选项2
                             <input type="radio" name="radio-group" value="radio2">
                         </label> 
                     </div>
@@ -44,9 +110,10 @@
                 </div>
             </div>
             <div class="form-group">
-                <label>多选框(组)</label>
+                <i class="code">&lt;CODE&gt;</i>
+                <label>自定义多选框(组)<i class="help">必填</i></label>
                 <div class="form-element">
-                    <div class="form-control" data-name="checkbox-group">
+                    <div class="form-control" data-name="checkbox-group" data-value="checkbox1,checkbox2"  data-rule=".+">
                         <label class="checkbox">选项1
                             <input type="checkbox" name="checkbox-group" value="checkbox1">
                         </label>
@@ -57,25 +124,33 @@
                 </div>
             </div>
             <div class="form-group">
-                <label>下拉框</label>
+                <i class="code">&lt;CODE&gt;</i>
+                <label>全定义组件<i class="help">必填</i></label>
                 <div class="form-element">
-                    <select class="form-control" name="select-one">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
+                    <div class="form-control" data-name="custom" data-value=""  data-rule=".+">
+                        <button></button>
+                    </div>
                 </div>
             </div>
+
             <div class="form-group">
-                <label>下拉框(多选)</label>
+                <i class="code">&lt;CODE&gt;</i>
+                <label>文本框<i class="help">特殊函数校验</i></label>
                 <div class="form-element">
-                    <select class="form-control" name="select-mutiple" multiple>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
+                    <input class="form-control" name="input" data-rule="lib.verify" data-error="校验失败" />
                 </div>
+                <script>
+                    window.lib = {}
+                    window.lib.verify = function( dom ){
+                        dom = $(dom);
+                        if( !dom.val()){
+                            return { result:false,error:"空的名称"}
+                        }
+                        return true;
+                    }
+                </script>     
             </div>
+
             <div class="form-group">
                 <label></label>
                 <div class="form-element">
@@ -86,14 +161,13 @@
         </form>
         <script type="text/javascript">
             function test1(){
-                FormVerify.verify( $("#test1") )
+                var res = FormVerify.verify( $("#test1") )
+                if( !res || res.result == false ){
+                    console.error("验证失败")
+                    return
+                }
 
             }
-            var func = function(){
-                console.log('click')
-            }
-            $('div').on('click',func)
-            $('div').off('click')
         </script>
     </body>
 </html>

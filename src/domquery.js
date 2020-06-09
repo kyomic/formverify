@@ -1,4 +1,14 @@
-(function( context ){
+/*
+ * domquery 
+ * 一个精简的类jquery选择器
+ * https://github.com/kyomic/
+
+ * Home:http://www.shareme.cn
+ * Author:kyomic@163.com
+ * Date: 2020-06-08T16:00Z
+ */
+
+ (function( context ){
 	var utils = {}
 	utils.isdom = function( obj ){
 		if( !obj ) return false;
@@ -48,21 +58,44 @@
 	}
 	context.utils = utils;
 
+	/**
+	 * domquery 构造器
+	 * @param {string|DOM|DOMQuery} selector - 选择器
+	 * @param {DOM|DOMQuery}  context - 查询上下文
+	 * @return DOMQuery
+	 */
 	var factory = function( selector, context ){
 		return new query( selector, context )
 	}
+	factory.verison = 'DOMQuery 0.0.1';
 
+	factory.ready = function( func ){
+		if( ready.isReady ){
+			func();
+		}else{
+			readyList.push( func );
+		}
+	}
+
+	/**
+	 * 简单的forEach方法
+	 * @grammar $.each('div',function(){})
+	 */
 	factory.each = function( selector , func ){
 		var nodes = factory( selector );
 		if( nodes.length ){
 			for(var i=0;i<nodes.length;i++){
 				var res = func.call(nodes[i], i, nodes[i]);
-				if( res && Boolean(res)==false ){
+				if( (typeof res!='undefined') && Boolean(res)==false ){
 					break;
 				}
 			}
 		}
 	}
+	/**
+	 * 将对象转为数组
+	 * @param {any} obj - array like 
+	 */
 	factory.makeArray = function( obj ){
 		var res = [];
 		if( typeof obj == 'object' && obj.length ){
@@ -74,7 +107,7 @@
 		}
 		return res;
 	}
-
+	//事件缓存，on,off方法调用时，缓存事件函数
 	var eventCache = {};
 	var tagMap = {
 			UL       : 1,
@@ -105,6 +138,78 @@
             EMBED    : 0,
             IMG      : 0
 	}
+
+	var readyBound = false,
+        readyList = [],
+        DOMContentLoaded;
+
+    var onDomReady = function(){
+    	for(var i=0;i<readyList.length;i++){
+    		try{
+    			readyList[i]();
+    		}catch(e){}
+    	}
+    	readyList = [];
+    }
+    function ready() {
+        if (!ready.isReady) {
+            ready.isReady = true;
+            onDomReady();
+        }else{
+        	onDomReady();
+        }
+    }
+    function doScrollCheck(){
+        try {
+            document.documentElement.doScroll("left");
+        } catch(e) {
+            setTimeout( doScrollCheck, 1 );
+            return;
+        }
+        ready();
+    }
+	var checkdomready = function(){
+		if (document.addEventListener) {
+            DOMContentLoaded = function() {
+                document.removeEventListener('DOMContentLoaded', DOMContentLoaded, false);
+                ready();
+            };
+
+        } else if (document.attachEvent) {
+            DOMContentLoaded = function() {
+                if (document.readyState === 'complete') {
+                    document.detachEvent('onreadystatechange', DOMContentLoaded);
+                    ready();
+                }
+            };
+        }
+        if (readyBound) {
+            return;
+        }
+        readyBound = true;
+        if (document.addEventListener) {
+            document.addEventListener('DOMContentLoaded', DOMContentLoaded, false);
+            window.addEventListener('load', ready, false);
+
+        } else if (document.attachEvent) {
+            document.attachEvent('onreadystatechange', DOMContentLoaded);
+            window.attachEvent('onload', ready);
+            var toplevel = false;
+            try {
+                toplevel = window.frameElement == null;
+            } catch (e) {}
+
+            if (document.documentElement.doScroll && toplevel) {
+                doScrollCheck();
+            }
+        }
+	}
+	/**
+	 * domquery 构造器
+	 * @param {string|DOM|DOMQuery} selector - 选择器
+	 * @param {DOM|DOMQuery}  context - 查询上下文
+	 * @return DOMQuery
+	 */
 	var query = function( selector, doc ){
 		this.context = doc ? ( doc.length ? doc[0] :doc ) : document;
 		var nodes = {};
@@ -171,30 +276,40 @@
 						if( values.indexOf( factory( elem).val() )!=-1){
 							elem.checked = true;
 						}
+					},
+					get:function( elem ){
+						elem = $(elem);
+						return elem.length ? elem[0].value :"";
 					}
 				}
 			},
+			/**
+			 * 返回dom的唯一位置id 
+			 */
 			domid:function(){
 				var paths = [];
 				var node = this.first();
-				while(node && node.nodeName.toUpperCase()!='BODY'){
-					var index = 0;
-					var tagName = node.nodeName.toUpperCase();
-	                for ( var i = node.previousSibling; i; i = i.previousSibling ) {
-	                    var d = i.nodeName.toUpperCase();
-	                    if ( tagMap[ d ] === 0 ) {
-	                        continue;
-	                    }
-	                    if ( d == tagName ) {
-	                        ++index;
-	                    }
-	                }
-	                tagName = tagMap[ tagName ] || tagName;
-	                var tindex = (index ? "!" + (index + 1) : "");
-                	paths.splice( 0, 0, tagName + tindex );
-                	node = node.parentNode;
+				if( !node.__domid ){
+					while(node && node.nodeName.toUpperCase()!='BODY'){
+						var index = 0;
+						var tagName = node.nodeName.toUpperCase();
+		                for ( var i = node.previousSibling; i; i = i.previousSibling ) {
+		                    var d = i.nodeName.toUpperCase();
+		                    if ( tagMap[ d ] === 0 ) {
+		                        continue;
+		                    }
+		                    if ( d == tagName ) {
+		                        ++index;
+		                    }
+		                }
+		                tagName = tagMap[ tagName ] || tagName;
+		                var tindex = (index ? "!" + (index + 1) : "");
+	                	paths.splice( 0, 0, tagName + tindex );
+	                	node = node.parentNode;
+					}
+					node.__domid = utils.stringhash(paths.join(''));
 				}
-				return utils.stringhash(paths.join(''));
+				return node.__domid;
 			},
 			first:function(){
 				var node = this[0];
@@ -206,9 +321,16 @@
 				}
 				return null
 			},
+			find:function( str ){
+				var node = this.first();
+				if( node ){
+					return new query( str, node );
+				}
+				return null;
+			},
 			parent:function(){
 				var node = this.first();
-				return $(node.parentNode())
+				return $(node.parentNode)
 			},
 			//元素之后
 			after:function( query ){
@@ -228,7 +350,6 @@
 				var sub = query.length ? query[0]:query;
 				if( node && sub ){
 					var parent = node.parentNode;
-					console.log("p",parent)
 					parent.insertBefore(sub, node);
 				}
 				return this;
@@ -269,6 +390,21 @@
 			        p = p.parentNode;
 			    }
 			    return false;
+			},
+			closest:function( query ){
+				var node = this.first();
+				var matches = node.matches || node.webkitMatchesSelector || node.mozMatchesSelector || node.msMatchesSelector;
+				while( node ){
+					if( matches.call( node, query )){
+						break;
+					}
+					node = node.parentElement;
+				}
+				if( node ){
+					return factory( node );
+				}else{
+					return factory({})
+				}
 			},
 			hasClass:function( name ){
 				var node = this.first();
@@ -318,6 +454,13 @@
 						}
 					}
 				})
+			},
+			toggleClass:function( name ){
+				if( !this.hasClass(name)){
+					this.addClass(name);
+				}else{
+					this.removeClass(name)
+				}
 			},
 			/**
 			 * @example
@@ -405,6 +548,20 @@
 				}
 				return this;
 			},
+			remove:function(){
+				factory.each(this,function(i,item){
+					try{
+						item.parentNode.removeChild(item);
+					}catch(e){}
+				})
+			},
+			html:function( html ){
+				var node = this.first();
+				if( node ){
+					node.innerHTML = html;
+				}
+				return this;
+			},
 			//event
 			on:function( event, handler ){
 				var self = this;
@@ -460,14 +617,18 @@
 				this.on( event , function(e){
 					var sub = factory(query, this);
 					var tar = e.target;
-					if( sub.contain(tar)){
-						if( handler.call(this, event) === false ){
-			                e.stopPropagation();
-			                try{
-			                    e.cancelBubble = true;
-			                }catch(e){}
-			            }
-					}
+					factory.each(sub,function(i,item){
+						item = $(item);
+						if( item.contain(tar)){
+							if( handler.call(tar, event) === false ){
+				                e.stopPropagation();
+				                try{
+				                    e.cancelBubble = true;
+				                }catch(e){}
+				            }
+						}
+					})
+					
 				})
 			},
 			undelegate:function(event,query,handler){
@@ -504,5 +665,7 @@
 
 	}else{
 		window.$ = factory
+
+		checkdomready();
 	}
 })( self || this )
