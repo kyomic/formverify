@@ -31,7 +31,7 @@ FormVerify是一个超级轻量的表单校验组件，支持创建自定义封�
 ```
 #### 3.交互校验
 ```javascript
-document.getElementById('button).onclick = function(){
+document.getElementById('button').onclick = function(){
     var res = FormVerify.verify( $("#form") )
     if( !res || res.result == false ){
        console.error("验证失败")
