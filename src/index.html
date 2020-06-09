@@ -159,6 +159,7 @@
           <input type=button onclick="test2()" value="数据" />
         </div>
       <div>
+      <div class="output"></div>
     </form>
     <script type="text/javascript">
       function test1(){
@@ -169,7 +170,9 @@
         }
       }
       function test2(){
-        console.log("表单数据:", FormVerify.params($("#test1")))
+        var data = FormVerify.params($("#test1"))
+        $(".output").html( JSON.stringify(data));
+        console.log("表单数据:", data );
       }
     </script>
   </body>
