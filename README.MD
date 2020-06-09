@@ -34,17 +34,19 @@ document.getElementById('button).onclick = function(){
        console.error("验证失败")
        return
     }
-	var params = FormVerify.params($("#form"));
-	//submit form ...
+    var params = FormVerify.params($("#form"));
+    //submit form ...
 }
 ```
 
 ## 演示地址
 
 
-[index.html](https://github.com/kyomic/editor.md "Editor.md")
+[index.html](https://kyomic.github.io/formverify/src/index.html "Editor.md")
 
-直接链接：<http://www.shareme.cn>
+HomePage
+<http://www.shareme.cn>
+
 [mailto:kyomic@163.com](mailto:kyomic@163.com)
 > @kyomic
 
