@@ -136,7 +136,7 @@
         <i class="code">&lt;CODE&gt;</i>
         <label>文本框<i class="help">特殊函数校验</i></label>
         <div class="form-element">
-          <input class="form-control" name="input" data-rule="lib.verify" data-error="校验失败" />
+          <input class="form-control" name="input_custom" data-rule="lib.verify" data-error="校验失败" />
         </div>
         <script>
           window.lib = {}
@@ -155,6 +155,9 @@
         <div class="form-element">
           <input type=button onclick="test1()" value="校验" />
         </div>
+        <div class="form-element">
+          <input type=button onclick="test2()" value="数据" />
+        </div>
       <div>
     </form>
     <script type="text/javascript">
@@ -164,6 +167,9 @@
           console.error("验证失败")
           return
         }
+      }
+      function test2(){
+        console.log("表单数据:", FormVerify.params($("#test1")))
       }
     </script>
   </body>

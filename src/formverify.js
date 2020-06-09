@@ -224,11 +224,11 @@
 		}
 	}
 
-	FormVerify.verify = function( content, option ){
+	FormVerify.verify = function( context, option ){
 		this.option = Object.assign( Object.assign( {}, FormVerifyOptions ), option || {});
 		var result = null;
 		var self = this;
-		$.each($("." + this.option.elementClass, content ),function(i, item){
+		$.each($("." + this.option.elementClass, context ),function(i, item){
 			//console.log("item",$(item).attr('name')||$(item).data('name'), "values===", self.getFormElementValue(item) )
 			var name = $(item).attr('name')||$(item).data('name');
 			result = FormVerify.verifyElement( item );
@@ -239,6 +239,19 @@
 			}
 		});
 		return result;
+	}
+
+	FormVerify.params = function( context ){
+		var params = {};
+		var self = this;
+		$.each($("." + this.option.elementClass, context ),function(i, item){
+			var name = $(item).attr('name')||$(item).data('name');
+			var value = self.getFormElementValue( item );
+			if( name ){
+				params[name] = value;
+			}
+		});
+		return params;
 	}
 
 	FormVerify.register = function( context, option ){
