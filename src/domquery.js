@@ -31,30 +31,30 @@
 	 * @returns {String} 哈希后的字符串
 	 */
 	utils.stringhash = function( str, len ){
-	    /* 对两个字符串进行异或运算
-	     */
-	    var stringxor = function( s1, s2 ) {
-	        var s = '', hash = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', max = Math.max( s1.length, s2.length );
-	        for ( var i = 0; i < max; i++ ) {
-	            // 将两个字符串对应字符的 Unicode 编码进行异或运算
-	            // 把运算结果取模, 去字符表中取对应字符
-	            var k = s1.charCodeAt( i ) ^ s2.charCodeAt( i );
-	            s += hash.charAt( k % 52 );
-	        }
-	        return s;
-	    };
-	    len = len || 32;
-	    var start = 0, i = 0, result = '', filllen = len - str.length % len;
-	    //使用字符0,将字符串长度补齐为哈希长度的倍数
-	    for ( i = 0; i < filllen; i++ ) {
-	        str += "0";
-	    }
-	    //将字符串分成 (str/len) 份,将上一次哈希后的字符串与下一组字符串进行哈希
-	    while ( start < str.length ) {
-	        result = stringxor( result, str.substr( start, len ) );
-	        start += len;
-	    }
-	    return result;
+    /* 对两个字符串进行异或运算
+     */
+    var stringxor = function( s1, s2 ) {
+      var s = '', hash = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', max = Math.max( s1.length, s2.length );
+      for ( var i = 0; i < max; i++ ) {
+        // 将两个字符串对应字符的 Unicode 编码进行异或运算
+        // 把运算结果取模, 去字符表中取对应字符
+        var k = s1.charCodeAt( i ) ^ s2.charCodeAt( i );
+        s += hash.charAt( k % 52 );
+      }
+      return s;
+    };
+    len = len || 32;
+    var start = 0, i = 0, result = '', filllen = len - str.length % len;
+    //使用字符0,将字符串长度补齐为哈希长度的倍数
+    for ( i = 0; i < filllen; i++ ) {
+      str += "0";
+    }
+    //将字符串分成 (str/len) 份,将上一次哈希后的字符串与下一组字符串进行哈希
+    while ( start < str.length ) {
+      result = stringxor( result, str.substr( start, len ) );
+      start += len;
+    }
+    return result;
 	}
 	context.utils = utils;
 
@@ -110,38 +110,38 @@
 	//事件缓存，on,off方法调用时，缓存事件函数
 	var eventCache = {};
 	var tagMap = {
-			UL       : 1,
-            OL       : 2,
-            LI       : 3,
-            INPUT    : 4,
-            DIV      : 5,
-            BODY     : 6,
-            STRONG   : 7,
-            SPAN     : 8,
-            FORM     : 9,
-            BUTTON   : 10,
-            CAPTION  : 11,
-            FIELDSET : 12,
-            COLGROUP : 13,
-            TFOOT    : 14,
-            LABEL    : 15,
-            LEGEND   : 16,
-            THEAD    : 17,
-            OPTGROUP : 18,
-            OPTION   : 19,
-            SELECT   : 20,
-            TABLE    : 21,
-            TBODY    : 22,
-            IFRAME   : 0,
-            SCRIPT   : 0,
-            OBJECT   : 0,
-            EMBED    : 0,
-            IMG      : 0
+		UL       : 1,
+      OL       : 2,
+      LI       : 3,
+      INPUT    : 4,
+      DIV      : 5,
+      BODY     : 6,
+      STRONG   : 7,
+      SPAN     : 8,
+      FORM     : 9,
+      BUTTON   : 10,
+      CAPTION  : 11,
+      FIELDSET : 12,
+      COLGROUP : 13,
+      TFOOT    : 14,
+      LABEL    : 15,
+      LEGEND   : 16,
+      THEAD    : 17,
+      OPTGROUP : 18,
+      OPTION   : 19,
+      SELECT   : 20,
+      TABLE    : 21,
+      TBODY    : 22,
+      IFRAME   : 0,
+      SCRIPT   : 0,
+      OBJECT   : 0,
+      EMBED    : 0,
+      IMG      : 0
 	}
 
 	var readyBound = false,
-        readyList = [],
-        DOMContentLoaded;
+    readyList = [],
+    DOMContentLoaded;
 
     var onDomReady = function(){
     	for(var i=0;i<readyList.length;i++){
@@ -152,57 +152,57 @@
     	readyList = [];
     }
     function ready() {
-        if (!ready.isReady) {
-            ready.isReady = true;
-            onDomReady();
-        }else{
-        	onDomReady();
-        }
+      if (!ready.isReady) {
+          ready.isReady = true;
+          onDomReady();
+      }else{
+      	onDomReady();
+      }
     }
     function doScrollCheck(){
-        try {
-            document.documentElement.doScroll("left");
-        } catch(e) {
-            setTimeout( doScrollCheck, 1 );
-            return;
-        }
-        ready();
+      try {
+          document.documentElement.doScroll("left");
+      } catch(e) {
+          setTimeout( doScrollCheck, 1 );
+          return;
+      }
+      ready();
     }
 	var checkdomready = function(){
 		if (document.addEventListener) {
-            DOMContentLoaded = function() {
-                document.removeEventListener('DOMContentLoaded', DOMContentLoaded, false);
-                ready();
-            };
+      DOMContentLoaded = function() {
+          document.removeEventListener('DOMContentLoaded', DOMContentLoaded, false);
+          ready();
+      };
 
-        } else if (document.attachEvent) {
-            DOMContentLoaded = function() {
-                if (document.readyState === 'complete') {
-                    document.detachEvent('onreadystatechange', DOMContentLoaded);
-                    ready();
-                }
-            };
+    } else if (document.attachEvent) {
+      DOMContentLoaded = function() {
+        if (document.readyState === 'complete') {
+            document.detachEvent('onreadystatechange', DOMContentLoaded);
+            ready();
         }
-        if (readyBound) {
-            return;
-        }
-        readyBound = true;
-        if (document.addEventListener) {
-            document.addEventListener('DOMContentLoaded', DOMContentLoaded, false);
-            window.addEventListener('load', ready, false);
+      };
+    }
+    if (readyBound) {
+      return;
+    }
+    readyBound = true;
+    if (document.addEventListener) {
+      document.addEventListener('DOMContentLoaded', DOMContentLoaded, false);
+      window.addEventListener('load', ready, false);
 
-        } else if (document.attachEvent) {
-            document.attachEvent('onreadystatechange', DOMContentLoaded);
-            window.attachEvent('onload', ready);
-            var toplevel = false;
-            try {
-                toplevel = window.frameElement == null;
-            } catch (e) {}
+    } else if (document.attachEvent) {
+      document.attachEvent('onreadystatechange', DOMContentLoaded);
+      window.attachEvent('onload', ready);
+      var toplevel = false;
+      try {
+          toplevel = window.frameElement == null;
+      } catch (e) {}
 
-            if (document.documentElement.doScroll && toplevel) {
-                doScrollCheck();
-            }
-        }
+      if (document.documentElement.doScroll && toplevel) {
+          doScrollCheck();
+      }
+    }
 	}
 	/**
 	 * domquery 构造器
@@ -229,27 +229,27 @@
 				select:{
 					get:function( elem ){
 						var value, option, options = elem.options,
-                    		index = elem.selectedIndex;//当前选中项 单选默认0，多选默认-1
-                    	var one = true;
-                    	if( index == -1 || elem.type =='select-multiple'){
-                    		one = false;
-                    	}
-                    	var max = one ? index + 1: options.length;//单选最大为1,多选为options.length
-                    	values = one ? null : [];//one为true，则values为null，否则为[]
-                    	var i = index < 0 ? max : (one ? index : 0);
-                    	for ( ; i < max; i++ ) {//遍历
-                    		option = options[ i ];
-                    		//不支持optgroup
-                    		if (  option.selected || i === index ){
-                    			value = query( option ).val();
-                    			if( one ){
-                    				return value;
-                    			}
-                    			values.push( value );//多选推入数组
-                    		}
-                    		
-                    	}
-                    	return values;
+          		index = elem.selectedIndex;//当前选中项 单选默认0，多选默认-1
+          	var one = true;
+          	if( index == -1 || elem.type =='select-multiple'){
+          		one = false;
+          	}
+          	var max = one ? index + 1: options.length;//单选最大为1,多选为options.length
+          	values = one ? null : [];//one为true，则values为null，否则为[]
+          	var i = index < 0 ? max : (one ? index : 0);
+          	for ( ; i < max; i++ ) {//遍历
+          		option = options[ i ];
+          		//不支持optgroup
+          		if (  option.selected || i === index ){
+          			value = query( option ).val();
+          			if( one ){
+          				return value;
+          			}
+          			values.push( value );//多选推入数组
+          		}
+          		
+          	}
+          	return values;
 					},
 					set:function( elem, value ){
 						var optionSet, option,options = elem.options;
@@ -257,17 +257,17 @@
 						var i = options.length;//选项数量
 						var find = false;
 						while ( i-- ) {
-                    		option = options[ i ];
-                    		var val = factory(option).val();
-                    		if ( values.indexOf( val )!=-1 ) {
-                    			option.selected = true;
-                    			find = true;
-                    		}
-                    	}
-                    	if( !find ){
-                    		elem.selectedIndex = -1;
-                    	}
-                    	return value;
+          		option = options[ i ];
+          		var val = factory(option).val();
+          		if ( values.indexOf( val )!=-1 ) {
+          			option.selected = true;
+          			find = true;
+          		}
+          	}
+          	if( !find ){
+          		elem.selectedIndex = -1;
+          	}
+          	return value;
 					}
 				},				
 				checkbox:{
@@ -293,19 +293,19 @@
 					while(node && node.nodeName.toUpperCase()!='BODY'){
 						var index = 0;
 						var tagName = node.nodeName.toUpperCase();
-		                for ( var i = node.previousSibling; i; i = i.previousSibling ) {
-		                    var d = i.nodeName.toUpperCase();
-		                    if ( tagMap[ d ] === 0 ) {
-		                        continue;
-		                    }
-		                    if ( d == tagName ) {
-		                        ++index;
-		                    }
-		                }
-		                tagName = tagMap[ tagName ] || tagName;
-		                var tindex = (index ? "!" + (index + 1) : "");
-	                	paths.splice( 0, 0, tagName + tindex );
-	                	node = node.parentNode;
+            for ( var i = node.previousSibling; i; i = i.previousSibling ) {
+                var d = i.nodeName.toUpperCase();
+                if ( tagMap[ d ] === 0 ) {
+                    continue;
+                }
+                if ( d == tagName ) {
+                    ++index;
+                }
+            }
+            tagName = tagMap[ tagName ] || tagName;
+            var tindex = (index ? "!" + (index + 1) : "");
+          	paths.splice( 0, 0, tagName + tindex );
+          	node = node.parentNode;
 					}
 					node.__domid = utils.stringhash(paths.join(''));
 				}
@@ -382,14 +382,14 @@
 				var child = query.length ? query[0] : query;
 				if( !child ) return false;
 				if( child == node ) return true;
-			    let p = child.parentNode;
-			    while(p){
-			        if( p == node ){
-			            return true;
-			        }
-			        p = p.parentNode;
-			    }
-			    return false;
+		    let p = child.parentNode;
+		    while(p){
+	        if( p == node ){
+	            return true;
+	        }
+	        p = p.parentNode;
+		    }
+		    return false;
 			},
 			closest:function( query ){
 				var node = this.first();
@@ -621,11 +621,11 @@
 						item = $(item);
 						if( item.contain(tar)){
 							if( handler.call(tar, event) === false ){
-				                e.stopPropagation();
-				                try{
-				                    e.cancelBubble = true;
-				                }catch(e){}
-				            }
+                e.stopPropagation();
+                try{
+                    e.cancelBubble = true;
+                }catch(e){}
+	            }
 						}
 					})
 					
