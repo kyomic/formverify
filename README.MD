@@ -2,6 +2,9 @@
 
 FormVerify是一个超级轻量的表单校验组件，支持创建自定义封装的表单控件
 
+##### 演示地址
+[index.html](https://kyomic.github.io/formverify/src/index.html "Editor.md")
+
 
 ## 使用说明
 > FormVerify暂不支持在类似于Vue,React等MVVM框架中运行。
@@ -79,10 +82,6 @@ FormVerify.verifyElement(element);
 FormVerify.params( selector )
 ```
 
-## 演示地址
-
-
-[index.html](https://kyomic.github.io/formverify/src/index.html "Editor.md")
 
 HomePage
 <http://www.shareme.cn>
