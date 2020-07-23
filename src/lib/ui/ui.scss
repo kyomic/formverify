@@ -1,0 +1,137 @@
+/** input(text) ,button */
+@import "../style/default";
+
+
+@mixin animate($style:'all'){
+	transition: all .15s ease-in;
+}
+/** 单行的盒子　**/
+@mixin oneline-box($pad-width:6px, $pad-height:4px) {
+	padding: $pad-height $pad-width;
+	height: 34px;
+	box-sizing: border-box;
+	outline:none;
+}
+/** **/
+@mixin checkbox-view(){
+	@include animate();
+	position: absolute;
+  right: 0;
+  top: 3px;
+  right: 0;
+  content: " "; 
+  display: inline-block;
+  border:1px solid $border-color;
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;  
+}
+/** input[text] & button */
+.form-group > input, .form-group > button {
+	@include oneline-box();
+  border:1px solid $border-color;
+  border-radius: $border-radius;  
+  &:hover{
+  	border:1px solid $color-hover;
+  }
+  &:focus{
+  	border:1px solid $color-focus;
+  	box-shadow: 0px 0px 7px rgba($color-focus,0.3);
+  }
+}
+.form-group > button{
+	cursor: pointer;
+	background-color:$fill-color;
+	&:hover{
+		background-color:rgba( $color-primary, 0.3);
+	}
+}
+/** checkbox & radio **/
+.form-group{
+	.checkbox-mix{
+		position: relative;
+    display: inline-block;
+    padding-right: 24px;
+    cursor: pointer;
+    &:after{
+      @include checkbox-view();
+    }
+	}
+	.input-mix{
+		display: inline-block;
+	  height: 16px;
+	  width: 16px;
+	  position: absolute;
+	  z-index: 1;
+	  top: 0;
+	  right: -3px;
+	  opacity: 0;
+    cursor: pointer;
+    &:focus + i{
+	    display:block;
+		  width:14px;
+		  height: 14px;
+		  position: absolute;
+	    border-color: $color-hover;
+	    box-shadow: 0px 0px 10px rgba($color-hover, 1);
+	    right: 1px;
+	    top: 4px;
+	  }
+	}
+	input[type='checkbox']{
+		@extend .input-mix;
+	}
+	input[type='radio']{
+		@extend .input-mix;
+		&:focus + i{
+    	border-radius: 100%;
+    }
+	}
+	.checkbox{
+  	@extend .checkbox-mix;
+  	/* icon */
+  	&:before{
+  		content: ' ';
+	    display: inline-block;
+	    border: 2px solid #fff;
+	    border-left: 0;
+	    border-top: 0;
+	    height: 7px;
+	    right: 5px;
+	    position: absolute;
+	    top: 5px;
+	    z-index: 1;
+	    width: 3px;
+	    transform: rotate(45deg) scaleY(1);
+	    cursor: pointer;
+  	}
+  }
+	.radio{
+    @extend .checkbox-mix;
+    &:after{
+      border-radius:100%;
+    }    
+  }
+	.checkbox-checked:after{
+    border:8px solid $color-hover;
+    width: 0px;
+    height: 0px;
+    cursor: pointer;
+  }
+  .radio-checked:after{
+    border-radius: 100%;
+    border:6px solid $color-hover;
+    width: 4px;
+    height: 4px;
+    cursor: pointer;
+  }
+  /** hover color */
+  .checkbox:hover:after,.radio:hover:after{
+    border-color: $color-hover;
+  }
+}
+.form{
+	.form-group{
+		margin-bottom: $space-form-element;
+	}
+}
