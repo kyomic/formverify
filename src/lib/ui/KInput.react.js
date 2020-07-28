@@ -16,6 +16,6 @@ export default class KInput extends KFormElement {
   }
   
   render() {
-    return <input className={ this.getClassName() } ref={ this.ref } onChange={this.onTextInput.bind(this)} onBlur={this.onTextBlur.bind(this)} />;
+    return <input type='text' className={ this.getClassName() } ref={ this.ref } onChange={this.onTextInput.bind(this)} onBlur={this.onTextBlur.bind(this)} />;
   }
 }

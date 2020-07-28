@@ -1,4 +1,8 @@
 $color-primary:#00CC00;
+$color-background-primary:#F0F0F0;
+
+$height-oneline:34px;
+
 
 /** border **/
 $border-color:#999;
@@ -8,6 +12,11 @@ $fill-color:#FFFFFF;
 /** interactive **/
 $color-hover:$color-primary;
 $color-focus:$color-primary;
+
+/** disabled color **/
+$color-disabled:#666666;
+/** disabled background */
+$bgcolor-disabled:#CCCCCC;
 
 
 /** layout **/

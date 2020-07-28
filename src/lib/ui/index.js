@@ -1,5 +1,6 @@
 import index from './index.js';
 import {env} from '@/lib/env';
+import "./layout.scss";
 import "./ui.scss";
 
 export var getComponent = ( name ) => {

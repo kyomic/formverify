@@ -5,19 +5,46 @@ import FileUploader from 'fileupload-lite';
 export default class KImageUpload extends KFile {
 	constructor( props ){
 		super( props )
+    this.state = Object.assign(this.state,{
+      initColumnWidth:0
+    })
 	}
 
   static defaultProps={
     ...KFile.defaultProps,
     autoupload:true,
     cols:3,//每行显示多少个图片块（多文件上传时有效）
+    ratio:1
+  }
+
+  componentDidMount(){
+    super.componentDidMount();    
+    let root = this.ref.current;
+    let col = root.querySelector(".col");
+    if( col ){
+      let initColumnWidth = col.clientWidth;
+      let calcWidth = Math.floor( root.offsetWidth * this.props.cols /12 );
+      initColumnWidth = Math.min( initColumnWidth, calcWidth );
+      this.setState({
+        initColumnWidth:initColumnWidth
+      })
+    }
   }
 
 	render() {
     const children = this.props.children
     let { autoupload, multiple } = this.props;
     let uploadCls = 'file file-image';
-    let layoutCls = 'col-' + 12 / this.props.cols;
+    let layoutCls = 'col col-' + this.props.cols;
+    let colstyle = {}
+    if( this.state.initColumnWidth ){
+      colstyle.width = this.state.initColumnWidth;
+      if( !multiple ){
+        //10px padding
+        colstyle.width -=10;
+      }
+      colstyle.height = colstyle.width * this.props.ratio;
+    }
     if( multiple ){
       uploadCls += ' file-image-mutiple';
     }
@@ -26,6 +53,10 @@ export default class KImageUpload extends KFile {
     }
     let { filenames } = this.state;
     let filename = '';
+    let wrapperHeight = colstyle.height;
+    if( multiple ){
+      wrapperHeight = 'auto'
+    }
     if( filenames.length ){
       //上传完后的文件名
       filename = filenames[filenames.length-1]
@@ -38,6 +69,7 @@ export default class KImageUpload extends KFile {
     if( this.state.loaded && this.state.total ){
       per = parseInt(100*this.state.loaded / this.state.total);
     }
+
     let uploadEnabled = true;
     if( !autoupload && !filename){
       uploadEnabled = false;
@@ -49,7 +81,7 @@ export default class KImageUpload extends KFile {
     
     let single = ()=>{
       return (
-        <div className="file-view">
+        <div className={' file-view ' + layoutCls } style={colstyle}>
           <div className="file-info">
             <KImage src={url}></KImage>
             {
@@ -60,8 +92,11 @@ export default class KImageUpload extends KFile {
               ])
             }
           </div>
-          <div className="file-upload" onClick={this.onUpload.bind(this)}>
-            {url?<div className="reload-tip">重新上传</div>:''}
+          <div className="file-upload" style={colstyle} onClick={this.onUpload.bind(this)}>
+            <div className="view">
+              {url?<div className="reload-tip">重新上传</div>:''}
+            </div>
+            
           </div>
         </div>
       )
@@ -83,16 +118,18 @@ export default class KImageUpload extends KFile {
           let per = parseInt(100*item.loaded / item.total);
           let name = this.state.filenames[i];
           return (
-            <div key={i} className={ layoutCls + ' file-info' }>          
-              <KImage src={name}></KImage>
-              {
-                url?'':(
-                [
-                  <div key={'1'} className="file-info-progress" style={{width:per+"%"}}></div>,
-                  <div key={'2'} className="file-info-name"><span>{filename}</span></div>
-                ])
-              }
-              <div className="file-delete" onClick={this.onRemoveFile.bind(this,item.target)} ></div>
+            <div className={ layoutCls } style={colstyle} >
+              <div key={i} className='file-info'>          
+                <KImage src={name}></KImage>
+                {
+                  url?'':(
+                  [
+                    <div key={'1'} className="file-info-progress" style={{width:per+"%"}}></div>,
+                    <div key={'2'} className="file-info-name"><span>{filename}</span></div>
+                  ])
+                }
+                <div className="file-delete" onClick={this.onRemoveFile.bind(this,item.target)} ></div>
+              </div>
             </div>
           )
         })
@@ -101,7 +138,8 @@ export default class KImageUpload extends KFile {
         <div className="file-viewlist">
           <div className="file-view">
             {filesview()}
-            <div className="file-upload" onClick={this.onUpload.bind(this)}>
+            <div className={layoutCls + " file-upload"} style={colstyle} onClick={this.onUpload.bind(this)}>
+              <div className="view"></div>
             </div>
           </div>
           
@@ -110,9 +148,9 @@ export default class KImageUpload extends KFile {
     }
     return (
       <div className={this.getClassName()} ref={this.ref}>
-        <div className={uploadCls}>
+        <div className={uploadCls} style={{height:wrapperHeight}}>
           <div className={multiple?"file-image-wrapper file-image-wrapper-multiple":'file-image-wrapper'}>
-            <input type="file" accept={this.props.accept||''} multiple={multiple?'multiple':''} onChange={this.onFileChange.bind(this)} ></input>
+            <input type="file" style={colstyle} accept={this.props.accept||''} multiple={multiple?'multiple':''} onChange={this.onFileChange.bind(this)} ></input>
             {multiple ? multiply() : single()}
           </div>
         </div>        

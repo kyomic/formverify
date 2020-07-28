@@ -111,8 +111,7 @@ export default class KFile extends KFormElement {
           this.setState({
             loaded:data.loaded,total:data.total
           })
-        }
-        
+        }       
         break;
       case 'complete':
         let response = data.detail.response;

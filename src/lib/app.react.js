@@ -84,7 +84,7 @@ export default class App extends Component {
            server="http://m2.fun.tv/file.php" multiple={false}></KImageUpload>
         </div>
         <div className="form-group">
-          <KImageUpload name="file-image-mutilple" cols={2} accept=".jpg"
+          <KImageUpload name="file-image-mutilple" cols={3} accept=".jpg"
             rule=".+" error="必填"
            server="http://m2.fun.tv/file.php" multiple={true}></KImageUpload>
         </div>

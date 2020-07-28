@@ -28,6 +28,7 @@ export default class KImage extends KFormElement {
   }
 
   layout(){
+    if( !this.state.src ) return;
     if( !this.state.naturalWidth ){
       if( this.image ){
         let width = 0,height=0;
@@ -55,6 +56,7 @@ export default class KImage extends KFormElement {
       this.viewHeight = this.state.naturalHeight;
     }
 
+    console.log("imgViewWidth-----------",this.viewWidth, this.viewHeight)
     let ratioView = this.viewWidth / this.viewHeight;
     let ratioNatural = this.state.naturalWidth / this.state.naturalHeight;
     let cropped_width = 0, cropped_height = 0;
@@ -102,6 +104,15 @@ export default class KImage extends KFormElement {
         src:nextProps.src
       })
     }
+    if( nextProps.style ){
+      console.log("style", nextProps.style)
+      let root = this.ref.current;
+      if( root ){
+        let h = query.pixelVal( query( root ).css('height'));
+        console.log(this.id, root, "~~~~viewWidth(props)========",h, root.offsetHeight)
+      }
+    
+    }
   }
   componentDidMount(){
     //重载，form不再接收onFormElementMounted事件
@@ -110,26 +121,28 @@ export default class KImage extends KFormElement {
       this.setState({
         src:this.props.src
       })
-    }
+    }    
+    this.opacity = 0;    
+  }
+  componentDidUpdate(prevProps,prevState){
     this.image = this.ref.current.querySelector('img');
     let root = this.ref.current;
     let w = query.pixelVal( query( root ).css('width'));
     let h = query.pixelVal( query( root ).css('height'));
     this.viewWidth = w;
     this.viewHeight = h;
-    console.log("viewWidth========",this.viewWidth)
-    this.opacity = 0;
   }
 
   render() {
     let { src, imageWidth, imageHeight  } = this.state;
     const children = this.props.children
     let imageStyle = {};
+    
     if( imageWidth && imageHeight ){
       imageStyle.width = imageWidth, imageStyle.height = imageHeight
     }
     return (
-      <div ref={this.ref} className="k-image">
+      <div ref={this.ref} className="k-image" style={this.props.style}>
         <img style={ imageStyle } src={src} onLoad={this.onImageEvent.bind(this)} onError={this.onImageEvent.bind(this)}  />
       </div>
     );
