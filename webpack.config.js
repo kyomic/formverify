@@ -121,6 +121,7 @@ const config = {
     hot: true, // hot module replacement. Depends on HotModuleReplacementPlugin
     https: false, // true for self-signed, object for cert authority
     noInfo: true, // only errors & warns on hot reload
+    host:"0.0.0.0"
     // ...
   },
   optimization: {

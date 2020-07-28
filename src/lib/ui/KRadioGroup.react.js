@@ -9,6 +9,9 @@ export default class KRadioGroup extends KFormElement {
     this.radios.push( element );
   }
   onRadioChange( radio ){
+    if( this.props.disabled ){
+      return;
+    }
     this.radios.map(r=> r.checked = false );
     radio.checked = true;
     //触发change
@@ -48,7 +51,7 @@ export default class KRadioGroup extends KFormElement {
           React.Children.map(this.props.children, child=>{
             let ChildComponentWithRef = React.forwardRef( ( props, ref )=>{
               let newProps = {
-                ...props, groupId: this.id,
+                ...props, groupId: this.id,disabled:this.props.disabled,
                 onFormElementMounted: this.onFormElementMounted.bind( this ),
                 onFormElementChange: this.onRadioChange.bind(this),
                 onFormElementBlur: this.onRadioBlur.bind( this )
@@ -58,15 +61,16 @@ export default class KRadioGroup extends KFormElement {
               })
             })
             let newProps = {
-                ...child.props, groupId: this.id,
-                onFormElementMounted: this.onFormElementMounted.bind( this ),
-                onFormElementChange: this.onRadioChange.bind(this),
-                onFormElementBlur: this.onRadioBlur.bind( this )
-              };
+              ...child.props, groupId: this.id,disabled:this.props.disabled,
+              onFormElementMounted: this.onFormElementMounted.bind( this ),
+              onFormElementChange: this.onRadioChange.bind(this),
+              onFormElementBlur: this.onRadioBlur.bind( this )
+            };
+            console.log("######attrs", newProps)
             return React.cloneElement( child, {
-                ...newProps
-              })
-            //return <ChildComponentWithRef />;
+              ...newProps
+            })
+            return <ChildComponentWithRef />;
           })
         }
       </div>

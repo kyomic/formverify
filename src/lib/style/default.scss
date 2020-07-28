@@ -1,4 +1,8 @@
 $color-primary:#00CC00;
+$color-error:#FF0000;
+/** disabled color **/
+$color-disabled:#ccc;
+
 $color-background-primary:#F0F0F0;
 
 $height-oneline:34px;
@@ -13,8 +17,7 @@ $fill-color:#FFFFFF;
 $color-hover:$color-primary;
 $color-focus:$color-primary;
 
-/** disabled color **/
-$color-disabled:#666666;
+
 /** disabled background */
 $bgcolor-disabled:#CCCCCC;
 

@@ -1,8 +1,6 @@
 /** input(text) ,button */
 @import "../style/default";
 
-.form{
-}
 @mixin animate($style:'all'){
 	transition: all .15s ease-in;
 }
@@ -29,8 +27,17 @@
 }
 
 @mixin disabled-box(){
-  color: $color-disabled;
-  background-color: $bgcolor-disabled;
+  cursor: default;
+  border-color: $color-disabled;  
+  background-color: rgba($color-disabled,0.4);
+  color: darken($color-disabled,10);
+}
+
+
+.form{
+  .err-tip{
+    color: $color-error;
+  }
 }
 /** input[text] & button */
 .form-group > input, .form-group > button {
@@ -516,7 +523,128 @@
 	}
 }
 
+/** form-control-invalid  **/
+input[type='text'].form-control-invalid{
+  border-color: $color-error;
+}
 
+.form-control-invalid{
+  .radio:after, .checkbox:after{
+    border-color: $color-error;
+  }
+  /** file input */
+  .file .file-wrapper{
+    border-color: $color-error;
+    .file-browser{
+      border-left-color: $color-error;
+    }
+  }
+  /** file-mutiple input */
+  .file-multiple .file-wrapper-multiple .file-browser{
+    border-color: $color-error;
+  }
+  /** file-image **/
+  .file-image .file-upload{
+    .view{
+      border-color: $color-error;
+      &:hover{
+        border-color: $color-error;
+      }
+    }    
+  }
+}
+/** disabled **/
+.form{
+  input[disabled]{
+    cursor: default;
+    @include disabled-box();
+    &:hover{
+      @include disabled-box();
+    };
+  }
+  button[disabled]{
+    cursor: default;
+    @include disabled-box();
+    &:hover{
+      @include disabled-box();
+    };
+  }
+  .form-control-disabled{
+    cursor: default;
+    .radio, .checkbox{cursor: default;}
+    .radio:after, .checkbox:after{
+      @include disabled-box();
+    }
+    .checkbox:before{
+      border-color: $color-disabled;
+    }
+    .radio:hover:after, .checkbox:hover:after{
+      @include disabled-box();
+    }
+    .file .file-view{
+      @include disabled-box();
+      background: none;
+      .file-info-progress{
+        background-color: rgba($color-disabled,0.4);
+      }
+    }
+    /** file input */
+    .file .file-wrapper{
+      @include disabled-box();      
+      .file-browser{
+        @include disabled-box();
+      }      
+      &:hover{
+        @include disabled-box();
+        .file-browser{
+          @include disabled-box();          
+        }
+      }
+      input,input[type=button],button{
+        @include disabled-box();
+        &:hover{
+          @include disabled-box();
+        }
+      }
+    }
+    .file-image{
+      .file-upload{
+        .reload-tip{
+          cursor: default;
+        }
+        &:hover{
+          .reload-tip{
+            cursor: default;
+            opacity:0;
+          }
+        }
+      }
+    }
+    .file-delete{
+      @include disabled-box();
+      &:hover{
+        @include disabled-box();
+      }
+    }
+    .file-multiple input[type=button]:hover{
+      @include disabled-box();
+    }
+    /** file-mutiple input */
+    .file-multiple .file-wrapper-multiple .file-browser{
+      border-color: $color-disabled;
+    }
+    /** file-image **/
+    .file-image .file-upload{
+      .view{
+        cursor: default;
+        border-color: $color-disabled;
+        &:hover{
+          border-color: $color-disabled;
+        }
+      }    
+    }
+  }
+}
 img[src='']{
   opacity: 0;
 }

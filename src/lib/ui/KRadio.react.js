@@ -62,7 +62,7 @@ export default class KRadio extends KFormElement {
               return child;
             })
           }
-          <input type='radio' name={ this.props.groupId } ref={ this.ref } onChange={ this.onChangeHandler.bind(this) } onBlur={ this.onComponentBlur.bind(this) } />
+          <input type='radio' disabled={this.props.disabled} name={ this.props.groupId } ref={ this.ref } onChange={ this.onChangeHandler.bind(this) } onBlur={ this.onComponentBlur.bind(this) } />
           <i />
         </label>
       ):(
@@ -74,7 +74,7 @@ export default class KRadio extends KFormElement {
                 return child;
               })
             }
-            <input type='radio'  onChange={ this.onChangeHandler.bind(this) } onBlur={ this.onComponentBlur.bind(this) } />
+            <input type='radio' disabled={this.props.disabled}  onChange={ this.onChangeHandler.bind(this) } onBlur={ this.onComponentBlur.bind(this) } />
             <i />
           </label>
         </div>

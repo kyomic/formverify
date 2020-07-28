@@ -17,7 +17,7 @@ export default class KButton extends KFormElement {
   render() {
     const children = this.props.children
     return (
-      <button ref={this.ref} className={this.getClassName()} onClick={ this.onClick.bind(this )}>
+      <button disabled={this.props.disabled} ref={this.ref} className={this.getClassName()} onClick={ this.onClick.bind(this )}>
         {
           React.Children.map(this.props.children, function (child) {
             return child;

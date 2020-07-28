@@ -8,7 +8,10 @@ export default class KCheckBoxGroup extends KFormElement {
   onFormElementMounted( element ){
     this.checkboxs.push( element );
   }
-  onCheckBoxChange( checkbox ){    
+  onCheckBoxChange( checkbox ){  
+    if( this.props.disabled ){
+      return;
+    }
     //触发change
     this.onComponentChange();
   }
@@ -50,7 +53,7 @@ export default class KCheckBoxGroup extends KFormElement {
           React.Children.map(this.props.children, child=>{
             let ChildComponentWithRef = React.forwardRef( ( props, ref )=>{
               let newProps = {
-                ...props, groupId: this.id,
+                ...props, groupId: this.id,disabled:this.props.disabled,
                 onFormElementMounted: this.onFormElementMounted.bind( this ),
                 onFormElementChange: this.onCheckBoxChange.bind(this),
                 onFormElementBlur: this.onCheckBoxBlur.bind( this )
@@ -60,7 +63,7 @@ export default class KCheckBoxGroup extends KFormElement {
               })
             })
             let newProps = {
-                ...child.props, groupId: this.id,
+                ...child.props, groupId: this.id,disabled:this.props.disabled,
                 onFormElementMounted: this.onFormElementMounted.bind( this ),
                 onFormElementChange: this.onCheckBoxChange.bind(this),
                 onFormElementBlur: this.onCheckBoxBlur.bind( this )

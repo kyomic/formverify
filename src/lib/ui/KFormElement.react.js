@@ -17,7 +17,8 @@ export default class KFormElement extends Component {
 
   static defaultProps={
     defaultclass:'form-control',
-    defaultInvalidClass:'form-control-invalid'
+    defaultInvalidClass:'form-control-invalid',
+    disabled:false,
   }
 
   set opacity( alpha ){
@@ -33,7 +34,8 @@ export default class KFormElement extends Component {
   /** 返回样式名 */
   getClassName(){
     let validCls = (typeof this.state.valid=='boolean' && !this.state.valid) ? this.props.defaultInvalidClass :'';
-    return [ this.props.defaultclass, validCls, this.props.className || '',this.id ].join(" ")
+    let disabledCls = this.props.disabled ? ' form-control-disabled':''
+    return [ this.props.defaultclass, validCls, disabledCls,  this.props.className || '',this.id ].join(" ")
   }
 
   errorInfo( msg ){

@@ -140,6 +140,7 @@ export default class KFile extends KFormElement {
     }
   }
   onRemoveFile( file ){
+    if( this.props.disabled ) return;
     let fileid = file.id;
     let idx = this.state.streams.findIndex( f=>{
       return f.id == file.id;
@@ -246,7 +247,9 @@ export default class KFile extends KFormElement {
     if( !autoupload && !filename){
       uploadEnabled = false;
     }
-
+    if( this.props.disabled){
+      uploadEnabled = false;
+    }
     console.log("render............", this.value, this.state)
     let single = ()=>{
       return (
@@ -256,8 +259,8 @@ export default class KFile extends KFormElement {
             <div className="file-info-name"><span>{filename}</span></div>
           </div>
           {
-            autoupload?<input type="button" className="file-browser" value={this.state.complete?'重新上传':'上传'} onClick={this.onUpload.bind(this)}></input>
-            :<input type="button" className="file-browser" value='浏览' onClick={this.onBrower.bind(this)}></input>
+            autoupload?<input disabled={this.props.disabled} type="button" className="file-browser" value={this.state.complete?'重新上传':'上传'} onClick={this.onUpload.bind(this)}></input>
+            :<input disabled={this.props.disabled} type="button" className="file-browser" value='浏览' onClick={this.onBrower.bind(this)}></input>
           }
         </div>
       )
@@ -282,7 +285,7 @@ export default class KFile extends KFormElement {
             <div key={i} className="file-info">              
               <div className="file-info-progress" style={{width:per+"%"}}></div>
               <div className="file-info-name"><span>{item.name}</span></div>
-              <input className="file-delete" type='button' value="删除" onClick={this.onRemoveFile.bind(this,item.target)} />
+              <input disabled={this.props.disabled} className="file-delete" type='button' value="删除" onClick={this.onRemoveFile.bind(this,item.target)} />
             </div>
           )
         })
@@ -292,7 +295,7 @@ export default class KFile extends KFormElement {
           <div className="file-view">
             {filesview()}
           </div>
-          <input type="button" className='file-browser' disabled={!uploadEnabled} value={this.value?'继续添加':'上传'} onClick={this.onUpload.bind(this)}></input>
+          <input disabled={this.props.disabled} type="button" className='file-browser' disabled={!uploadEnabled} value={this.value?'继续添加':'上传'} onClick={this.onUpload.bind(this)}></input>
         </div>
       )
     }
@@ -300,7 +303,7 @@ export default class KFile extends KFormElement {
       <div className={this.getClassName()} ref={this.ref}>
         <div className={uploadCls}>
           <div className={multiple?"file-wrapper-multiple":'file-wrapper'}>
-            <input type="file" accept={this.props.accept||''} multiple={multiple?'multiple':''} onChange={this.onFileChange.bind(this)} ></input>
+            <input disabled={this.props.disabled} type="file" accept={this.props.accept||''} multiple={multiple?'multiple':''} onChange={this.onFileChange.bind(this)} ></input>
             {multiple ? multiply() : single()}
           </div>
           {

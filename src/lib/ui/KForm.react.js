@@ -33,8 +33,11 @@ export default class KForm extends Component {
    */
   verifyElement( component ){
     console.log('verify:', component)
-    let {rule,error} = component.props;
+    let {rule,error,disabled} = component.props;
     let value = component.value;
+    if( disabled ){
+      return true;
+    }
     let res = verify_api.verify( component, { value, rule, error })
     if( !res || (typeof res=='object' && !res.result) ){
       component.errorInfo( res ? res.error: verify_api.option.error )
@@ -49,7 +52,10 @@ export default class KForm extends Component {
     let param = {}
     this.components.map( ele =>{
       if( ele.props.name ){
-        param[ ele.props.name ] = ele.value;
+        if( !ele.props.disabled ){
+          //不可用的组件忽略
+          param[ ele.props.name ] = ele.value;
+        }        
       }
     })
     return param;
@@ -98,7 +104,7 @@ export default class KForm extends Component {
             childs = deepClone( childs );
           }
           return React.cloneElement( children, {
-            ...children.props
+            ...children.props,
           }, childs)
         }
       }

@@ -45,7 +45,7 @@ export default class KCheckBox extends KFormElement {
 
   componentDidMount(){
     let checked = this.props.checked || false;  
-    this.checked = checked;      
+    this.checked = checked;
     super.componentDidMount();
   }
   render() {
@@ -62,7 +62,7 @@ export default class KCheckBox extends KFormElement {
               return child;
             })
           }
-          <input type='checkbox' name={ this.props.groupId } ref={ this.ref } onChange={ this.onChangeHandler.bind(this) } onBlur={ this.onComponentBlur.bind(this) } />
+          <input type='checkbox' disabled={this.props.disabled} name={ this.props.groupId } ref={ this.ref } onChange={ this.onChangeHandler.bind(this) } onBlur={ this.onComponentBlur.bind(this) } />
           <i />
         </label>
       ):(
@@ -74,7 +74,7 @@ export default class KCheckBox extends KFormElement {
                 return child;
               })
             }
-            <input type='checkbox'  onChange={ this.onChangeHandler.bind(this) } onBlur={ this.onComponentBlur.bind(this) } />
+            <input type='checkbox' disabled={this.props.disabled}  onChange={ this.onChangeHandler.bind(this) } onBlur={ this.onComponentBlur.bind(this) } />
             <i />
           </label>
         </div>

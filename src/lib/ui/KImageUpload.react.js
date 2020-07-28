@@ -150,7 +150,7 @@ export default class KImageUpload extends KFile {
       <div className={this.getClassName()} ref={this.ref}>
         <div className={uploadCls} style={{height:wrapperHeight}}>
           <div className={multiple?"file-image-wrapper file-image-wrapper-multiple":'file-image-wrapper'}>
-            <input type="file" style={colstyle} accept={this.props.accept||''} multiple={multiple?'multiple':''} onChange={this.onFileChange.bind(this)} ></input>
+            <input disabled={this.props.disabled} type="file" style={colstyle} accept={this.props.accept||''} multiple={multiple?'multiple':''} onChange={this.onFileChange.bind(this)} ></input>
             {multiple ? multiply() : single()}
           </div>
         </div>        
