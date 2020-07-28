@@ -3,7 +3,10 @@
 FormVerify是一个超级轻量的表单校验组件，支持创建自定义封装的表单控件
 
 ##### 演示地址
-[index.html](https://kyomic.github.io/formverify/src/index.html "Editor.md")
+[Javascript index.html](https://kyomic.github.io/formverify/src/index.html "Editor.md")
+
+[React index.html](https://kyomic.github.io/formverify/lib/index.html "Editor.md")
+
 
 
 ## 使用说明
