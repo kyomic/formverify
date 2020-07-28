@@ -1,0 +1,11 @@
+$col-step:12;
+$i: 0;
+@while $i <= $col-step {
+  .col-#{$i}{
+  	width: #{$i/$col-step*100+'%'};
+  }
+  .form .file-image .file-image-wrapper .col-#{$i}{
+  	width: #{$i/$col-step*100+'%'};
+  }
+  $i: $i + 1;
+}
