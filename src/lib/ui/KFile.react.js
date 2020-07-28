@@ -118,7 +118,7 @@ export default class KFile extends KFormElement {
         let filenames = this.state.filenames;
         streams.map( file =>{
           if( file.id == data.taskid ){
-            filenames.push('http://static.funshion.com/open/static/img/logo.gif')
+            filenames.push('http://www.baidu.com/img/flexible/logo/pc/result.png')
           }
         })
         this.setState({
@@ -250,7 +250,6 @@ export default class KFile extends KFormElement {
     if( this.props.disabled){
       uploadEnabled = false;
     }
-    console.log("render............", this.value, this.state)
     let single = ()=>{
       return (
         <div className="file-view">

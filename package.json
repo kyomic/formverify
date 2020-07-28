@@ -4,8 +4,9 @@
   "description": "a lite web form validation lib,support web,vue,react",
   "main": "index.js",
   "scripts": {
-    "dev:react": "cross-env NODE_ENV=development WEB_ENV=react webpack-dev-server --progress --display-chunks --watch  --mode development  --config ./webpack.config.js",
-    "dev:vue": "cross-env NODE_ENV=development WEB_ENV=vue webpack-dev-server  --mode development  --config ./webpack.config.js",
+    "dev:react": "cross-env NODE_ENV=development WEB_ENV=react webpack-dev-server --progress --display-chunks --watch  --mode development  --config ./webpack.config.dev.js",
+    "dev:vue": "cross-env NODE_ENV=development WEB_ENV=vue webpack-dev-server  --mode development  --config ./webpack.config..dev.js",
+    "build":"cross-env NODE_ENV=production WEB_ENV=react webpack --config ./webpack.config.umd.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

@@ -1,3 +1,5 @@
+@import "../style/default";
+
 $col-step:12;
 $i: 0;
 @while $i <= $col-step {
@@ -8,4 +10,10 @@ $i: 0;
   	width: #{$i/$col-step*100+'%'};
   }
   $i: $i + 1;
+}
+
+.form{
+	.radio + .radio, .checkbox + .checkbox{
+		margin-left: $space-form-element;
+	}
 }

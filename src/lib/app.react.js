@@ -34,6 +34,8 @@ export default class App extends Component {
   render(){
     let disabled = false;
     let readonly = true;
+    let uploadUrl = "/";
+    //uploadUrl = "http://m2.fun.tv/file.php"
     return (
       <KForm ref="form">
         <div className="form-group"></div>
@@ -68,27 +70,27 @@ export default class App extends Component {
           <KCheckBox disabled={disabled} name="checkbox" value="1" rule=".+" error="必填">选项A</KCheckBox>
         </div>
         <div className="form-group">
-          <KImage mode='fill' src="http://static.funshion.com/open/static/img/logo.gif" />
+          <KImage mode='fill' src="//www.baidu.com/img/flexible/logo/pc/result.png" />
         </div>
         <div className="form-group">
           <KFile disabled={disabled} name="file" accept=".jpg,.mp4"
             rule=".+" error="必填"
-           server="http://m2.fun.tv/file.php" autoupload={true} multiple={false}></KFile>
+           server={uploadUrl} autoupload={true} multiple={false}></KFile>
         </div>
         <div className="form-group">
           <KFile disabled={disabled} name="file-mutilple" accept=".jpg,.mp4"
             rule=".+" error="必填"
-           server="http://m2.fun.tv/file.php" autoupload={true} multiple={true}></KFile>
+           server={uploadUrl} autoupload={true} multiple={true}></KFile>
         </div>
         <div className="form-group">
           <KImageUpload disabled={disabled} name="file-image" accept=".jpg"
             rule=".+" error="必填"
-           server="http://m2.fun.tv/file.php" multiple={false}></KImageUpload>
+           server={uploadUrl} multiple={false}></KImageUpload>
         </div>
         <div className="form-group">
           <KImageUpload disabled={disabled} name="file-image-mutilple" cols={3} accept=".jpg"
             rule=".+" error="必填"
-           server="http://m2.fun.tv/file.php" multiple={true}></KImageUpload>
+           server={uploadUrl} multiple={true}></KImageUpload>
         </div>
         
         <div className="form-group">          

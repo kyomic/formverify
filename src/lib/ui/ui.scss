@@ -26,6 +26,10 @@
   vertical-align: middle;  
 }
 
+@mixin checkbox-view-mobile(){
+
+}
+
 @mixin disabled-box(){
   cursor: default;
   border-color: $color-disabled;  

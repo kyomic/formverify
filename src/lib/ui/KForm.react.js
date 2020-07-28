@@ -4,7 +4,8 @@ import ReactDOM from 'react-dom'
 import {KFormElement} from './KFormElement.js'
 import {domquery as query} from '@/lib/utils/domquery.js'
 import verify from '@/lib/utils/verify.js'
-console.log('verify',verify)
+import {env} from '@/lib/env.js';
+console.log('verify',verify, 'env====',env)
 let verify_api = verify;
 export default class KForm extends Component {
   constructor(props) {
@@ -110,8 +111,12 @@ export default class KForm extends Component {
       }
     };
     let children = this.props.children;
+    let cls = "form";
+    if( env.mobile ){
+      cls += ' form-ios';
+    }
     return (
-      <div className="form">
+      <div className={cls}>
       { deepClone( children ) }
       </div>
     )
