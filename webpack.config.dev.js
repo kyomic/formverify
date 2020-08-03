@@ -16,11 +16,16 @@ if( os.type() !='Windows_NT'){
 }
 
 let entry = '';
-if( WEB_ENV == 'react'){
-  entry = './src/index.react.js'
+if( WEB_ENV == 'lib'){
+  entry = './src/demo/app.react.js';
 }else{
-  entry = './src/index.vue.js'
+  if( WEB_ENV == 'react'){
+    entry = './src/index.react.js'
+  }else{
+    entry = './src/index.vue.js'
+  }
 }
+
 const config = {
   entry: entry,
   output: {

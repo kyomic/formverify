@@ -5,6 +5,7 @@
   </div>  
 </template>
 <script>
+/*
 import { KFormElement } from '@/lib/ui/KFormElement.js'
 let KInputCompare = {
   name: 'KInputCompare',
@@ -32,4 +33,5 @@ let KInputCompare = {
 }
 export default KInputCompare
 export {KInputCompare}
+*/
 </script>

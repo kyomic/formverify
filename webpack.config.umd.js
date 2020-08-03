@@ -1,5 +1,6 @@
 const polyfill = []
 const os = require('os');
+const glob = require('glob')
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin'); 
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
@@ -15,19 +16,31 @@ if( os.type() !='Windows_NT'){
   productionDir = `/mnt/market/html5video/`
 }
 
-let entry = '';
-if( WEB_ENV == 'react'){
-  entry = './src/index.react.js'
-}else{
-  entry = './src/index.vue.js'
-}
+let entry = './src/lib/index.js';
+/*
+let files = glob.sync('./src/lib/ui/**.js');
+
+entry = {};
+files = files.filter(res=>{
+  return /react/.exec(res)
+})
+
+files.map(res=>{
+  let name = res;
+  name = name.replace(".js",'')
+  name = name.replace("./src/lib/ui/",'')
+  entry[ name ] = res;
+})
+console.log(entry)
+*/
 const config = {
   entry: entry,
   output:{
     path:`${__dirname}/lib`,
     filename:"index.js",
-    library: 'formverfiy-ui',
-    libraryTarget: 'umd'
+    library: 'formverify',
+    libraryTarget: 'umd',
+    //umdNamedDefine: true,globalObject: 'this'
   },
   resolve: {
     // 设置别名
@@ -116,6 +129,25 @@ const config = {
   ],
   optimization: {
     minimize: false
+  },
+  //关闭 webpack 的性能提示
+    //performance: {
+    //  hints:false
+    //}
+
+    //或者
+
+    //警告 webpack 的性能提示
+  performance: {
+    hints:'warning',
+    //入口起点的最大体积
+    maxEntrypointSize: 50000000,
+    //生成文件的最大体积
+    maxAssetSize: 30000000,
+    //只给出 js 文件的性能提示
+    assetFilter: function(assetFilename) {
+      return assetFilename.endsWith('.js');
+    }
   }
 }
 

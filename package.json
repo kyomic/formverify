@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev:react": "cross-env NODE_ENV=development WEB_ENV=react webpack-dev-server --progress --display-chunks --watch  --mode development  --config ./webpack.config.dev.js",
-    "dev:vue": "cross-env NODE_ENV=development WEB_ENV=vue webpack-dev-server  --mode development  --config ./webpack.config..dev.js",
-    "build":"cross-env NODE_ENV=production WEB_ENV=react webpack --config ./webpack.config.umd.js",
+    "dev:vue": "cross-env NODE_ENV=development WEB_ENV=vue webpack-dev-server  --mode development  --config ./webpack.config.dev.js",
+    "dev:lib": "cross-env NODE_ENV=development WEB_ENV=lib webpack-dev-server --progress --display-chunks --watch --mode development  --config ./webpack.config.dev.js",
+    "build:lib": "cross-env NODE_ENV=production WEB_ENV=react webpack --config ./webpack.config.umd.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -33,6 +34,7 @@
     "@vue/compiler-sfc": "^3.0.0-beta.15",
     "autoprefixer": "^9.8.4",
     "babel-loader": "^8.1.0",
+    "babel-plugin-import": "^1.13.0",
     "cross-env": "^7.0.2",
     "css-loader": "^3.6.0",
     "fileupload-lite": "^1.0.4",

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {domquery as query} from '@/lib/utils/domquery.js'
+import query from '@/lib/utils/domquery.js'
 export default class KFormElement extends Component {  
   constructor(props) {
     super(props);
