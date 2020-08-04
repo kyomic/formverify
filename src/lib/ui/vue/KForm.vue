@@ -4,7 +4,7 @@
   </div>  
 </template>
 <script>
-import {verify} from '@/lib/utils/verify.js'
+import verify from '@/lib/utils/verify.js'
 let verify_api = verify;
 export default {
   name: 'KForm',

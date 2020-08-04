@@ -2,7 +2,7 @@
   <option ref="option"><slot></slot></option>
 </template>
 <script>
-import { KFormElement } from './KFormElement.js'
+import { KFormElement } from './index.js'
 export default {
   name: 'KSelectOption',
   extends: KFormElement,

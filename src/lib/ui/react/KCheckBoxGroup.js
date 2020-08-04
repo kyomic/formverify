@@ -1,38 +1,40 @@
 import React, { Component } from 'react';
-import {KFormElement} from './KFormElement'
-export default class KRadioGroup extends KFormElement {  
+import {KFormElement} from './index.js'
+export default class KCheckBoxGroup extends KFormElement {  
   constructor( props ){
     super( props );
-    this.radios = [];
+    this.checkboxs = [];
   }
   onFormElementMounted( element ){
-    this.radios.push( element );
+    this.checkboxs.push( element );
   }
-  onRadioChange( radio ){
+  onCheckBoxChange( checkbox ){  
     if( this.props.disabled ){
       return;
     }
-    this.radios.map(r=> r.checked = false );
-    radio.checked = true;
     //触发change
     this.onComponentChange();
   }
-  onRadioBlur( radio ){
+  onCheckBoxBlur( checkbox ){
     this.onComponentBlur();
   }
 
 
   get value(){
-    let checkedRadio = this.radios.filter( r=> r.checked );
-    if( checkedRadio && checkedRadio.length ){
-      return checkedRadio[checkedRadio.length-1].value;
-    }
-    return '';
+    let vals = [];
+    this.checkboxs.map( r => {
+      if( typeof r.value!='undefined'){
+        vals.push( r.value )
+      }
+    });
+    return vals.join(',');
   }
+
   set value( val ){
     if( val ){
-      this.radios.map( r =>{
-        if( r.cacheValue == val ){
+      let vals = val.split(',')
+      this.checkboxs.map( r =>{
+        if( vals.indexOf(r.cacheValue)!=-1 ){
           r.checked = true;
         }else{
           r.checked = false;
@@ -41,7 +43,7 @@ export default class KRadioGroup extends KFormElement {
     }
   }
   componentDidMount(){
-    this.value = this.props.value||'',
+    this.value = this.props.value||'' 
     super.componentDidMount();
   }
   render() {
@@ -53,24 +55,23 @@ export default class KRadioGroup extends KFormElement {
               let newProps = {
                 ...props, groupId: this.id,disabled:this.props.disabled,
                 onFormElementMounted: this.onFormElementMounted.bind( this ),
-                onFormElementChange: this.onRadioChange.bind(this),
-                onFormElementBlur: this.onRadioBlur.bind( this )
+                onFormElementChange: this.onCheckBoxChange.bind(this),
+                onFormElementBlur: this.onCheckBoxBlur.bind( this )
               };
               return React.cloneElement( child, {
                 ...newProps, ref
               })
             })
             let newProps = {
-              ...child.props, groupId: this.id,disabled:this.props.disabled,
-              onFormElementMounted: this.onFormElementMounted.bind( this ),
-              onFormElementChange: this.onRadioChange.bind(this),
-              onFormElementBlur: this.onRadioBlur.bind( this )
-            };
-            console.log("######attrs", newProps)
+                ...child.props, groupId: this.id,disabled:this.props.disabled,
+                onFormElementMounted: this.onFormElementMounted.bind( this ),
+                onFormElementChange: this.onCheckBoxChange.bind(this),
+                onFormElementBlur: this.onCheckBoxBlur.bind( this )
+              };
             return React.cloneElement( child, {
-              ...newProps
-            })
-            return <ChildComponentWithRef />;
+                ...newProps
+              })
+            //return <ChildComponentWithRef />;
           })
         }
       </div>

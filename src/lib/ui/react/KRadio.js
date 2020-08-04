@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {KFormElement} from './KFormElement'
-export default class KCheckBox extends KFormElement {
+import {KFormElement} from './index.js'
+export default class KRadio extends KFormElement {
   constructor( props ){
     super(props);
     this.state = {
@@ -40,18 +40,18 @@ export default class KCheckBox extends KFormElement {
     if( this.checked && this.ref.current ){
       return this.props.value || this.ref.current.value;
     }
-    return undefined;
+    return '';
   }
 
   componentDidMount(){
     let checked = this.props.checked || false;  
-    this.checked = checked;
+    this.checked = checked;      
     super.componentDidMount();
   }
   render() {
-    let radioCls = "checkbox";
+    let radioCls = "radio";
     if( this.state.isChecked ){
-      radioCls += ' checkbox-checked'
+      radioCls += ' radio-checked'
     }
     return (
       //在按纽组中
@@ -62,7 +62,7 @@ export default class KCheckBox extends KFormElement {
               return child;
             })
           }
-          <input type='checkbox' disabled={this.props.disabled} name={ this.props.groupId } ref={ this.ref } onChange={ this.onChangeHandler.bind(this) } onBlur={ this.onComponentBlur.bind(this) } />
+          <input type='radio' disabled={this.props.disabled} name={ this.props.groupId } ref={ this.ref } onChange={ this.onChangeHandler.bind(this) } onBlur={ this.onComponentBlur.bind(this) } />
           <i />
         </label>
       ):(
@@ -74,7 +74,7 @@ export default class KCheckBox extends KFormElement {
                 return child;
               })
             }
-            <input type='checkbox' disabled={this.props.disabled}  onChange={ this.onChangeHandler.bind(this) } onBlur={ this.onComponentBlur.bind(this) } />
+            <input type='radio' disabled={this.props.disabled}  onChange={ this.onChangeHandler.bind(this) } onBlur={ this.onComponentBlur.bind(this) } />
             <i />
           </label>
         </div>

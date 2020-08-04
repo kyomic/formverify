@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {KFile} from './KFile'
-import {KImage} from './KImage'
+import {KFile} from './index.js'
+import {KImage} from './index.js'
 import FileUploader from 'fileupload-lite';
 export default class KImageUpload extends KFile {
 	constructor( props ){

@@ -8,7 +8,7 @@ const resolve = dir => path.resolve(__dirname, dir);
 const webpack = require('webpack')
 
 const isDev = process.env.NODE_ENV == 'development'
-const WEB_ENV = process.env.WEB_ENV;
+let WEB_ENV = process.env.WEB_ENV;
 
 let productionDir = `${__dirname}/dist`;
 if( os.type() !='Windows_NT'){
@@ -16,16 +16,26 @@ if( os.type() !='Windows_NT'){
 }
 
 let entry = '';
-if( WEB_ENV == 'lib'){
-  entry = './src/demo/app.react.js';
-}else{
-  if( WEB_ENV == 'react'){
-    entry = './src/index.react.js'
-  }else{
-    entry = './src/index.vue.js'
-  }
+let framework = '';
+switch( WEB_ENV ){
+  case 'lib-react':
+    entry = './src/demo/index.react.js'; 
+    framework = 'react';
+    break;
+  case 'lib-vue':
+    entry = './src/demo/index.vue.js';
+    framework = 'vue';
+    break;
+  case 'react':
+    entry = './src/index.react.js';
+    framework = 'react';
+    break;
+  case 'vue':
+    entry = './src/index.vue.js';
+    framework = 'vue';
+    break;
 }
-
+console.log('entry', entry)
 const config = {
   entry: entry,
   output: {
@@ -110,7 +120,8 @@ const config = {
   mode: 'production',
   plugins: [
     new webpack.DefinePlugin({
-      'framework': JSON.stringify(process.env.WEB_ENV),
+      'framework': JSON.stringify( framework ),
+      //'framework': JSON.stringify('vue'),
       'dev':JSON.stringify(process.env.NODE_ENV)
     }),
     new HtmlWebpackPlugin( { filename: "mvvm.html", template: path.join(__dirname, "./src/mvvm.html") } ),

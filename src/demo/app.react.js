@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import verify from '@/lib/utils/verify.js'
-import { KForm, KInput, KButton, KRadioGroup, KRadio, KCheckBoxGroup, KCheckBox, KFile, KImageUpload, KImage } from '../../lib/index.js';
+import { KForm, KInput, KButton, KRadioGroup, KRadio, KCheckBoxGroup, KCheckBox, KFile, KImageUpload, KImage } from '../../lib/index-react.js';
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -101,5 +101,3 @@ export default class App extends Component {
     )
   }
 }
-
-render(<App />, document.querySelector("#app"));

@@ -19,6 +19,7 @@ let factoryClass = null;
     if( typeof obj =='object' && obj.nodeType == 1){
       return true;
     }
+    if( obj == window ) return true;
     if( obj == document )return true;
     return false;
   }
@@ -219,6 +220,32 @@ let factoryClass = null;
     this.context = doc ? ( doc.length ? doc[0] :doc ) : document;
     var nodes = {};
     nodes.__proto__ = {
+      sizeHooks:{
+        width:{
+          get:function( elem ){
+            if( elem == window ){
+              return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+            }
+            elem = query.call(this,elem);
+            if( !elem.display() ){
+              elem.css({
+                visibility:'hidden',
+                display:'inline-block !important'
+              })
+            }
+            var w = elem.css('width');
+            throw new Error("todo...")
+          }
+        },
+        height:{
+          get:function( elem ){
+            if( elem == window ){
+              return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+            }
+            throw new Error("todo...")
+          }
+        }
+      },
       valHooks:{
         option:{
           get:function( elem ){
@@ -492,6 +519,25 @@ let factoryClass = null;
           }
           return '';
         }
+      },
+      display:function(){
+        return !(this.css('display') ==='none')
+      },
+      width:function(){
+        var hook = this.sizeHooks['width'].get;
+        var node = this.first();
+        if( typeof hook == 'function'){
+          return hook.call( this, node )
+        }
+        return 0;
+      },
+      height:function(){
+        var hook = this.sizeHooks['height'].get;
+        var node = this.first();
+        if( typeof hook == 'function'){
+          return hook.call( this, node )
+        }
+        return 0;
       },
       attr:function( attr, val ){
         var node = this.first();

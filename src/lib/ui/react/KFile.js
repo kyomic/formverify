@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {KFormElement} from './KFormElement'
+import {KFormElement} from './index.js'
 import FileUploader from 'fileupload-lite';
 
 export default class KFile extends KFormElement {

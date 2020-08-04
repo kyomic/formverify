@@ -14,10 +14,11 @@
 		if( !obj ) return false;
 		if( obj instanceof HTMLElement ){
 			return true;
-		}
+		}		
 		if( typeof obj =='object' && obj.nodeType == 1){
 			return true;
 		}
+		if( obj == window) return true;
 		if( obj == document )return true;
 		return false;
 	}
@@ -637,7 +638,6 @@
 		}
 		nodes.__proto__.valHooks['select-multiple'] = nodes.__proto__.valHooks['select-one'] = nodes.__proto__.valHooks['select'];
 		nodes.__proto__.valHooks['radio'] = nodes.__proto__.valHooks['checkbox']
-
 		if (typeof selector === 'string') {
 			if(/</ig.exec( selector )){
 				throw new Error("** unsupport html code");

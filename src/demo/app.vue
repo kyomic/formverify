@@ -66,8 +66,9 @@
 
 <script>
 import {
-  KForm,KInput,KButton,KCheckBox,KCheckBoxGroup,KRadio,KRadioGroup,KTextArea,KSelect,KSelectOption} from '@/lib/ui/index.js'
+  KForm,KInput,KButton,KCheckBox,KCheckBoxGroup,KRadio,KRadioGroup,KTextArea,KSelect,KSelectOption} from '../../lib/index-vue.js'
 import {KInputCompare} from './KInputCompare.vue'
+console.log("KForm", KForm, KInput)
 export default {
   name: 'App',
   components:{

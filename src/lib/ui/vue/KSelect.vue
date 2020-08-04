@@ -9,7 +9,7 @@
   </div>
 </template>
 <script>
-import { KFormElement } from './KFormElement.js'
+import { KFormElement } from './index.js'
 export default {
   name: 'KSelect',
   extends: KFormElement,  

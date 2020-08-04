@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {KFormElement} from './KFormElement'
+import {KFormElement} from './index.js'
 export default class KButton extends KFormElement {
   constructor(props) {
     super(props);

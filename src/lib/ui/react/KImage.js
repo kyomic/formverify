@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {KFormElement} from './KFormElement'
+import {KFormElement} from './index.js'
 import query from '@/lib/utils/domquery.js'
 export default class KImage extends KFormElement {
   constructor(props) {

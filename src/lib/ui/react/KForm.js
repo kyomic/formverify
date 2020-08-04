@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom'
 
-import {KFormElement} from './KFormElement.js'
+import {KFormElement} from './index.js'
 import {domquery as query} from '@/lib/utils/domquery.js'
 import verify from '@/lib/utils/verify.js'
 import {env} from '@/lib/env.js';
