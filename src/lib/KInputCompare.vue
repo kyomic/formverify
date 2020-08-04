@@ -1,7 +1,7 @@
 <template>
   <div :class="getClassName()" >
-    <input ref="input_a" @blur='onBlurHandler' @keyup='onChangeHandler($event)' />
-    <input ref="input_b" @blur='onBlurHandler' @keyup='onChangeHandler($event)' />
+    <input type='text' ref="input_a" @blur='onBlurHandler' @keyup='onChangeHandler($event)' />
+    <input type='text' ref="input_b" @blur='onBlurHandler' @keyup='onChangeHandler($event)' />
   </div>  
 </template>
 <script>

@@ -113,7 +113,7 @@ export default class KForm extends Component {
     let children = this.props.children;
     let cls = "form";
     if( env.mobile ){
-      cls += ' form-ios';
+      cls += ' form-mobile';
     }
     return (
       <div className={cls}>

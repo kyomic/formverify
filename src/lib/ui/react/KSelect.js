@@ -20,7 +20,7 @@ export default class KSelect extends KFormElement {
       	<div className="select-poplayer" ref="layer">
 		      {
 		        React.Children.map( this.props.children, child =>{
-		            return child;
+		          return child;
 		        })
 		      }
 		    </div>

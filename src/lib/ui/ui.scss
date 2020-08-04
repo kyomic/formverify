@@ -1,7 +1,7 @@
 /** input(text) ,button */
 @import "../style/default";
 
-@mixin animate($style:'all'){
+@mixin animate($style:all){
 	transition: $style .15s ease-in;
 }
 /** 单行的盒子　**/
@@ -44,7 +44,8 @@
   }
 }
 /** input[text] & button */
-.form-group > input, .form-group > button {
+.form-group > input, .form-control > input, .form-group > button, .form-group > textarea {
+  color: $text-color;
 	@include oneline-box();
   border:1px solid $border-color;
   border-radius: $border-radius;  
@@ -149,6 +150,13 @@
   .checkbox:hover:after,.radio:hover:after{
     border-color: $color-hover;
   }
+}
+.form-group > textarea{
+  box-sizing:border-box;
+  border:1px solid $border-color;
+  width: 100%;
+  min-height: 100px;
+  border-radius: $border-radius;
 }
 /** file component **/
 .form{

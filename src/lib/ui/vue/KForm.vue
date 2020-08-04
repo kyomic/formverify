@@ -1,10 +1,11 @@
 <template>
-  <div class="form">
+  <div :class="getFormClassName()">
     <slot></slot>
   </div>  
 </template>
 <script>
 import verify from '@/lib/utils/verify.js'
+import {env} from '@/lib/env.js';
 let verify_api = verify;
 export default {
   name: 'KForm',
@@ -18,6 +19,9 @@ export default {
   computed:{},
 
   methods:{
+    getFormClassName(){
+      return  env.mobile ? 'form form-mobile':'form'
+    },
     params(){
       let param = {};
       this.elements.map(ele=>{
@@ -29,6 +33,7 @@ export default {
     },
     verify(){
       let childs = this.elements;
+      console.log('childs',childs)
       let result = null;
       for(let i=0;i< childs.length ;i++){
         result =this.verifyElement( childs[i] );

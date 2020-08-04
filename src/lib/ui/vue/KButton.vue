@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <button @click="onClickHandler($event)"><slot></slot></button>
-  </div>  
+  <button @click="onClickHandler($event)"><slot></slot></button>  
 </template>
 <script>
 export default {

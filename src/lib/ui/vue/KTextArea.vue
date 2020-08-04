@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <textarea :value="value" ref="element" @blur="onBlurHandler($event)" @keyup='onChangeHandler($event)' :class="getClassName()" />
-  </div>
+  <textarea :value="value" ref="element" @blur="onBlurHandler($event)" @keyup='onChangeHandler($event)' :class="getClassName()" />
 </template>
 <script>
 import { KFormElement } from './index.js'

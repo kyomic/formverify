@@ -28,6 +28,9 @@
         <label class="form-label">复选框</label>
         <KCheckBox name="checkbox1" value="1" rule=".+">A</KCheckBox>
       </div>
+      <div className="form-group">
+        <KImage mode='fill' src="//www.baidu.com/img/flexible/logo/pc/result.png" />
+      </div>
       <div class="form-group">
         <label class="form-label"><i class="required">*</i>文本域：</label>
         <KTextArea name='textarea'></KTextArea>
@@ -65,14 +68,12 @@
 </template>
 
 <script>
-import {
-  KForm,KInput,KButton,KCheckBox,KCheckBoxGroup,KRadio,KRadioGroup,KTextArea,KSelect,KSelectOption} from '@/lib/ui/index.js'
+import component from '@/lib/ui/index.js'
 import {KInputCompare} from './KInputCompare.vue'
-console.log("KForm", KForm, KInput)
 export default {
   name: 'App',
   components:{
-    KForm,KInput,KButton,KCheckBox,KCheckBoxGroup,KRadio,KRadioGroup,KTextArea,KSelect,KSelectOption,
+    ...component,
     KInputCompare,
   },
   data(){

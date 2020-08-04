@@ -36,5 +36,5 @@ let KTextArea = getComponent('KTextArea');
 let KFile = getComponent('KFile');
 let KImageUpload = getComponent('KImageUpload');
 export {
-  KFormElement, KForm,KInput,KImage,KButton,KCheckBox,KCheckBoxGroup,KRadio,KRadioGroup,KSelect,KSelectOption, KTextArea,KFile, KImageUpload
+  KFormElement, KForm,KInput,KImage,KButton,KCheckBox,KCheckBoxGroup,KRadio,KRadioGroup,KSelect,KSelectOption,KTextArea,KFile, KImageUpload
 }

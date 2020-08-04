@@ -33,7 +33,7 @@ export default {
     },
     errorInfo( msg ){
       this.verifyError = true;
-      let wrapper = this.$el;
+      let wrapper = this.$el.parentNode;
       let err = wrapper.querySelector('.err-tip');
       if( !err ){
         err = document.createElement('span');

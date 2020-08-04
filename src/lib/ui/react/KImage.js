@@ -54,8 +54,6 @@ export default class KImage extends KFormElement {
     if( !this.viewHeight ){
       this.viewHeight = this.state.naturalHeight;
     }
-
-    console.log("imgViewWidth-----------",this.viewWidth, this.viewHeight)
     let ratioView = this.viewWidth / this.viewHeight;
     let ratioNatural = this.state.naturalWidth / this.state.naturalHeight;
     let cropped_width = 0, cropped_height = 0;
@@ -84,19 +82,17 @@ export default class KImage extends KFormElement {
       imageWidth: cropped_width, imageHeight: cropped_height
     })
     this.opacity = 1;
-    console.log("viewWidth",this.viewWidth,'viewHeight',this.viewHeight, 'cropped_width', cropped_width, 'cropped_height', cropped_height)
+    //console.log("viewWidth",this.viewWidth,'viewHeight',this.viewHeight, 'cropped_width', cropped_width, 'cropped_height', cropped_height)
 
   }
 
   onImageEvent(e){
-    console.log('imge event',e)
     let img = e.target;
     console.log('img',img.width, img.height, img.naturalWidth)
     this.layout();
   }
 
   componentWillReceiveProps( nextProps ){
-    console.log("this.props", this.props, nextProps)
     if( nextProps.src ){
       this.reset();
       this.setState({
@@ -104,7 +100,6 @@ export default class KImage extends KFormElement {
       })
     }
     if( nextProps.style ){
-      console.log("style", nextProps.style)
       let root = this.ref.current;
       if( root ){
         let h = query.pixelVal( query( root ).css('height'));
