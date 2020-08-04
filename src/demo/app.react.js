@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import verify from '@/lib/utils/verify.js'
-import { KForm, KInput, KButton, KRadioGroup, KRadio, KCheckBoxGroup, KCheckBox, KFile, KImageUpload, KImage } from '../../lib/index-react.js';
+import { 
+  KForm, KInput, KButton, KRadioGroup, KRadio, KCheckBoxGroup, KCheckBox, KFile, KImageUpload, KImage ,
+  KSwitch,KSelectOption,KSelect
+} from '@/lib/index.js';
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -39,7 +42,7 @@ export default class App extends Component {
     return (
       <KForm ref="form">
         <div className="form-group"></div>
-        <div className="form-group">
+        <div className="form-group f1" style={{display:"none",width:100}}>
           <label className="form-label">名称：</label>
           <KInput disabled={disabled} name="input1" className="abc" rule=".+###^[a-zA-Z]+$" error="必填###只能填英文"></KInput>
         </div>
@@ -47,6 +50,11 @@ export default class App extends Component {
           <label className="form-label">名称：</label>
           <KInput disabled={disabled} name="input2" className="abc" rule={this.verifyFunc.bind(this)} error="必填"></KInput>
         </div>
+        <div className="form-group">
+          <label className="form-label">单选切换：</label>
+          <KSwitch disabled={disabled} name="raidogroup" value='2' rule=".+" error="必填"></KSwitch>
+        </div>
+
         <div className="form-group">
           <label className="form-label">单选框组：</label>
           <KRadioGroup disabled={disabled} name="raidogroup" value='2' rule=".+" error="必填">
@@ -68,6 +76,16 @@ export default class App extends Component {
         <div className="form-group">
           <label className="form-label">单选组：</label>
           <KCheckBox disabled={disabled} name="checkbox" value="1" rule=".+" error="必填">选项A</KCheckBox>
+        </div>
+        <div className="form-group">
+          <label className="form-label">下拉框:</label>
+          <KSelect style={{height:100}}>
+            {
+              [1,2,3,4,5,6,7,8,9.10].map( (item,i)=>{
+                return <KSelectOption key={i}>{item}</KSelectOption>
+              })
+            }
+          </KSelect>
         </div>
         <div className="form-group">
           <KImage mode='fill' src="//www.baidu.com/img/flexible/logo/pc/result.png" />
@@ -101,3 +119,5 @@ export default class App extends Component {
     )
   }
 }
+
+render(<App />, document.querySelector("#app"));

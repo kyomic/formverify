@@ -33,8 +33,8 @@ files.map(res=>{
 })
 console.log(entry)
 */
-let makeconfig = function( type ){
-  let entry = './src/lib/ui/'+type+'/index.js';  
+let makeconfig = function( type, entry ){
+  entry = entry || './src/lib/ui/'+type+'/index.js';  
   let config = {
     entry: entry,
     output:{
@@ -157,5 +157,15 @@ let makeconfig = function( type ){
   return config;
 }
 
+let module_exports = [ makeconfig('react'), makeconfig('vue') ]
 
-module.exports = [ makeconfig('react'), makeconfig('vue')];
+switch( WEB_ENV ){
+  case 'lib-react':
+    module_exports = makeconfig('react','./src/demo/index.react.js')
+    break;
+  case 'lib-vue':
+    module_exports = makeconfig('react','./src/demo/index.vue.js')
+    break;
+}
+console.log('module_exports', module_exports)
+module.exports = module_exports;
