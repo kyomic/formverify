@@ -125,7 +125,7 @@ let makeconfig = function( type, entry ){
         'framework': JSON.stringify( type ),
         'dev':JSON.stringify(process.env.NODE_ENV)
       }),
-      new HtmlWebpackPlugin( { filename: "mvvm.html", template: path.join(__dirname, "./src/mvvm.html") } ),
+      new HtmlWebpackPlugin( { filename: "index-"+type+".html", template: path.join(__dirname, "./src/mvvm.html") } ),
       //new MiniCssExtractPlugin({filename: 'style.css',})
       
     ],
@@ -160,12 +160,11 @@ let makeconfig = function( type, entry ){
 let module_exports = [ makeconfig('react'), makeconfig('vue') ]
 
 switch( WEB_ENV ){
-  case 'lib-react':
-    module_exports = makeconfig('react','./src/demo/index.react.js')
-    break;
-  case 'lib-vue':
-    module_exports = makeconfig('react','./src/demo/index.vue.js')
+  case 'lib-demo':
+    module_exports = [
+      makeconfig('react','./src/demo/index.react.js'),
+      makeconfig('vue','./src/demo/index.vue.js')
+    ]
     break;
 }
-console.log('module_exports', module_exports)
 module.exports = module_exports;

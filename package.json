@@ -8,7 +8,7 @@
     "dev:vue": "cross-env NODE_ENV=development WEB_ENV=vue webpack-dev-server  --mode development  --config ./webpack.config.dev.js",
     "dev:lib-react": "cross-env NODE_ENV=development WEB_ENV=lib-react webpack-dev-server --progress --display-chunks --watch --mode development  --config ./webpack.config.dev.js",
     "dev:lib-vue": "cross-env NODE_ENV=development WEB_ENV=lib-vue webpack-dev-server --progress --display-chunks --watch --mode development  --config ./webpack.config.dev.js",
-    "build:lib": "cross-env NODE_ENV=production WEB_ENV=lib-react webpack --config ./webpack.config.umd.js",
+    "build:lib": "cross-env NODE_ENV=production WEB_ENV=lib-demo webpack --config ./webpack.config.umd.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
